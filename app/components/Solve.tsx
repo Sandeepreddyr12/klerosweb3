@@ -13,6 +13,7 @@ import { ref, update } from 'firebase/database';
 import { ethers, Contract } from 'ethers';
 import RPSArtifact from '../../Contract/build/RPS.json';
 import { db } from '@/firebase';
+import { toast } from 'react-toastify';
 
 type Props = {
   selectedCircle: string | null;
@@ -61,11 +62,26 @@ const SolveGame = ({ selectedCircle }: Props) => {
     const address = Data.owner;
 
     if (!address) {
-      alert('Please login with wallet to continue.');
+      toast.warn('Please login with wallet to continue.');
       return;
     }
 
+     if (!selectedCircle) {
+       toast.warn(
+         'Please confirm a move (Rock, Paper, Scissors, Spock, or Lizard)'
+       );
+       return;
+     }
+     if (!secretKey) {
+       toast.warn(
+         'Please confirm the secret key that you provided while starting the game'
+       );
+       return;
+     }
+
     console.log('solve');
+
+     const toastId = toast.loading('intializing RPS contract...');
 
     try {
       if (!window.ethereum) {
@@ -82,18 +98,8 @@ const SolveGame = ({ selectedCircle }: Props) => {
         return;
       }
 
-      if (!selectedCircle) {
-        alert(
-          'Please confirm a move (Rock, Paper, Scissors, Spock, or Lizard)'
-        );
-        return;
-      }
-      if (!secretKey) {
-        alert(
-          'Please confirm the secret key that you provided while starting the game'
-        );
-        return;
-      }
+     
+
 
       const RPSContract = new Contract(
         Data.GameData.RPSaddress,
@@ -101,7 +107,14 @@ const SolveGame = ({ selectedCircle }: Props) => {
         signer
       );
 
-      console.log('initlized rps contract');
+      const toastId = toast.loading('RPS contract initialized...');
+
+       toast.update(toastId, {
+         render: '🎉 RPS contract initialized...',
+         type: 'success',
+         isLoading: true,
+         autoClose: 4000,
+       });
 
       //  console.log(getMoveNumber(selectedCircle || localData?.move), secretKey);
 
@@ -114,12 +127,24 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
       resetGameState(Data.currentGameId);
 
+       toast.update(toastId, {
+         render: '🎉 solved, game is finished',
+         type: 'success',
+         isLoading: false,
+         autoClose: 4000,
+       });
+
       //  setGameData((prevState) => ({ ...prevState, ...data }));
 
       console.log('RPSContract solve function called');
     } catch (error) {
       console.error('Error solving game:', error);
-      // alert('Failed to join game. Please try again.');
+      toast.update(toastId, {
+        render: '🎉Something went wrong,Failed to start game. Please try again',
+        type: 'error',
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
   };
 

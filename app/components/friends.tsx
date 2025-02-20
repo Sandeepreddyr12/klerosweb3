@@ -3,7 +3,7 @@ import styles from '../page.module.css';
 import { db } from '@/firebase';
 import { ref, set,get, onValue,onDisconnect,serverTimestamp } from 'firebase/database';
 import { useAppContext } from '../utils/context/context';
-
+import { toast } from 'react-toastify';
 
 
 
@@ -36,13 +36,14 @@ const Friends = ({ tabState }: TabsProps) => {
   return (
     <div className={styles.box}>
       <ul id={styles.friends}>
-        {(!players && Object.keys(players).length > 0 ) ?
+        {(players && Object.keys(players).length > 0 ) ?
           ( Object.keys(players).map((key: string) => {
             if (key === Data.owner) {
               return (
                 <li
                   onClick={() => {
                     console.log('clicked u cant play with yourself,');
+                    toast.info('You cant play with yourself');
                   }}
                   key={key}
                 >
@@ -55,7 +56,8 @@ const Friends = ({ tabState }: TabsProps) => {
                   onClick={() => {
                     console.log('clicked', key);
                     tabState('start');
-                    return Data.setSelectedAddress(key);
+                    toast.info(`You've chosen to play with ${key}. Redirecting to start game...`);
+                     Data.setSelectedAddress(key);
                   }}
                   key={key}
                 >

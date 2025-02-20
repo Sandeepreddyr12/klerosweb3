@@ -13,6 +13,7 @@ import { type GameData } from '../page';
 
 // import { deployHasher, deployRPS } from '../deployScripts/deployScript';
 import { GameItem } from '../utils/UI/UIcomponents';
+import { toast } from 'react-toastify';
 
 declare global {
   interface Window {
@@ -83,19 +84,21 @@ export default function EnterGame({
     e.preventDefault();
 
     if (!MetaMaskInstalled) {
-      alert('Please install MetaMask to continue');
+      toast.warn('Please install MetaMask to continue');
       return;
     }
 
     const address = Data.owner;
 
     if (!address) {
-      alert('Please login with wallet to continue.');
+      toast.warn('Please login with wallet to continue.');
       return;
     }
 
     if (!selectedCircle) {
-      alert('Please select a move (Rock, Paper, Scissors, Spock, or Lizard)');
+      toast.warn(
+        'Please select a move (Rock, Paper, Scissors, Spock, or Lizard)'
+      );
       return;
     }
 
@@ -138,12 +141,15 @@ export default function EnterGame({
 
       await update(ref(db, 'game/' + Data.currentGameId), data);
 
+      toast.success('Game joined successfully!');
+
       // setGameData(prevState => ({ ...prevState, ...data }));
 
       console.log('RPSContract play function called');
     } catch (error) {
       console.error('Error joining game:', error);
       // alert('Failed to join game. Please try again.');
+      toast.error('Failed to join game. Please try again.');
     }
   };
 

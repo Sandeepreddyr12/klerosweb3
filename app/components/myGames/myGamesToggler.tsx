@@ -5,6 +5,7 @@ import formStyle from '../../page.module.css';
 import { db } from '@/firebase';
 import { ref, set, onValue } from 'firebase/database';
 import { useAppContext, defaultContext } from '../../utils/context/context';
+import {toast} from 'react-toastify';
 
 const GameInput = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -17,6 +18,7 @@ const GameInput = () => {
   const handleOptionClick = (option: string) => {
     setShowDropdown(false);
     setSelectedOption(option);
+    toast.info(`You've selected the game ${option}`);
   };
 
   const handleFocusOut = () => {
@@ -75,6 +77,7 @@ const GameInput = () => {
 
   const newGame = () => {
     console.log('new game');
+    toast.info('You have started a new game, Id is created after start');
     setSelectedOption('new Game');
   };
 

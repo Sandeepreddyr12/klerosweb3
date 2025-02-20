@@ -6,6 +6,7 @@ import { ref, update } from 'firebase/database';
 import { ethers, Contract } from 'ethers';
 import RPSArtifact from '../../Contract/build/RPS.json';
 import { db } from '@/firebase';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -25,7 +26,7 @@ export default function RecoverBtn(props: Props) {
     const address = Data.owner;
 
     if (!address) {
-      alert('Please login with wallet to continue.');
+      toast.warn('Please login with wallet to continue.');
       return;
     }
 
@@ -34,6 +35,7 @@ export default function RecoverBtn(props: Props) {
     try {
       if (!window.ethereum) {
         throw new Error('Please install MetaMask to continue');
+        return
       }
       const provider = new ethers.BrowserProvider(window.ethereum);
       // Request account access
@@ -60,6 +62,9 @@ export default function RecoverBtn(props: Props) {
             ('recovered' as gameStateType) + `by ${Data.GameData.player1}`,
         };
         await update(ref(db, 'game/' + Data.currentGameId), data);
+
+        toast.success('Funds recovered successfully');
+
       } else if (address === Data.GameData.player2) {
         await RPSContract.j1Timeout();
 
@@ -68,6 +73,7 @@ export default function RecoverBtn(props: Props) {
             ('recovered' as gameStateType) + `by ${Data.GameData.player2}`,
         };
         await update(ref(db, 'game/' + Data.currentGameId), data);
+         toast.success('Funds recovered successfully');
       }
 
       //  setGameData((prevState) => ({ ...prevState, ...data }));
@@ -75,6 +81,7 @@ export default function RecoverBtn(props: Props) {
       console.log('funds recovered');
     } catch (error) {
       console.error('Error recovering funds:', error);
+        toast.error('Failed to recover funds. Please try again.');
       // alert('Failed to join game. Please try again.');
     }
   };
@@ -82,7 +89,7 @@ export default function RecoverBtn(props: Props) {
   const disableRecoverBtn = (): boolean => {
     const data = getGameState(Data.currentGameId);
 
-    if ((data && typeof data?.timer === 'undefined') || null) return false;
+    if ((data && typeof data?.timer === 'undefined') || null) return true;
 
     if (data && Date.now() > Number(data.timer)) {
       if (Data.owner === Data.GameData.player1) {

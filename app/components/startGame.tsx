@@ -5,7 +5,7 @@ import { db } from '@/firebase';
 import { ref, set, update } from 'firebase/database';
 import { useAppContext, type gameStateType } from '../utils/context/context';
 import { saveGameState } from '../utils/localStorage';
-import toast from 'react-hot-toast';
+import {toast} from 'react-toastify';
 
 import { deployHasher, deployRPS } from '../deployScripts/deployScript';
 import { GameItem, InputForm, NumberInput } from '../utils/UI/UIcomponents';
@@ -82,27 +82,41 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
 
     if (!inputValidator(address1)) return;
 
+    const toastId = toast.loading('Starting game...');
+    
     try {
-      //  const accounts = await window.ethereum?.request({
-      //    method: 'eth_requestAccounts',
-      //  });
-      //   const [address1] = accounts || [''];
-
       HasherContract = await deployHasher();
+      // toast.loading('Hasher Contract deployed', { id: toastId });
 
-      console.log('HasherContract deployed');
+      toast.update(toastId, {
+        render: '🎉 Hasher Contract deployed',
+        type: 'success',
+        isLoading: true,
+        autoClose: 3000,
+      });
 
       const hashedMove = await HasherContract.hash(
         getMoveNumber(selectedCircle),
         secretKey
       );
 
-      // const valueInWei = ethers.parseEther(amount.toString());
+      toast.update(toastId, {
+        render: '🎉 Your move has been hashed',
+        type: 'success',
+        isLoading: true,
+        autoClose: 3000,
+      });
+
       RPSContract = await deployRPS(hashedMove, address, amount);
+      // toast.loading('RPS Contract deployed', { id: toastId });
 
-      console.log('RPSContract deployed');
+      toast.update(toastId, {
+        render: '🎉 RPS Contract deployed',
+        type: 'success',
+        isLoading: true,
+        autoClose: 3000,
+      });
 
-      // const RPSaddress = RPSContract.address;
 
       const data = {
         player1: address1,
@@ -124,16 +138,26 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
       await update(ref(db, 'players/' + address1), gameAdd);
       await update(ref(db, 'players/' + address), gameAdd);
 
-      // gameData({...data});
-
       await set(ref(db, 'game/' + gameId), data);
 
       saveGameState(gameId, secretKey, selectedCircle as string);
 
-      console.log('Data written to database');
+      // toast.success('Game started successfully!', { id: toastId });
+      toast.update(toastId, {
+        render: '🎉 Game started successfully!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 5000,
+      });
     } catch (error) {
       console.error('Error joining game:', error);
-      // alert('Failed to join game. Please try again.');
+      // toast.error('Failed to start game. Please try again.', { id: toastId });
+      toast.update(toastId, {
+        render: '🎉Something went wrong,Failed to start game. Please try again',
+        type: 'error',
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
   };
 
@@ -142,27 +166,32 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     window.crypto.getRandomValues(array);
     const randomNumber = array[0];
     setSecretKey(randomNumber.toString().slice(0, 15));
+
   }
 
   function inputValidator(address1: string) {
     if (!address) {
-      alert('Please enter opponent address');
+      toast.warn('Please enter opponent address');
       return false;
     }
     if (!selectedCircle) {
-      alert('Please select a move (Rock, Paper, Scissors, Spock, or Lizard)');
+      toast.warn(
+        'Please select a move (Rock, Paper, Scissors, Spock, or Lizard)'
+      );
       return false;
     }
     if (!secretKey) {
-      alert('Please enter or generate a secret key');
+      toast.warn('Please enter or generate a secret key');
       return false;
     }
     if (!amount) {
-      alert(`Please enter an amount greater than or equal to ${entryFee} ETH`);
+      toast.warn(
+        `Please enter an amount greater than or equal to ${entryFee} ETH`
+      );
       return false;
     }
     if (!address1) {
-      alert('Please login with wallet to continue.');
+      toast.warn('Please login with wallet to continue.');
       return false;
     }
     return true;
@@ -181,8 +210,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
           // hideInput={false}
         />
         <button className={styles.submit} onClick={generateSecureRandomNumber}>
-          Generate{' '}
-          <span style={{ fontSize: '.6rem', color: 'black' }}>more secure</span>
+          Generate <span style={{ fontSize: '.6rem', color : "black"}}>more secure</span>
         </button>
 
         <NumberInput
