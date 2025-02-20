@@ -1,95 +1,135 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useEffect, useState } from 'react';
+import styles from './page.module.css';
+// import { ref, set ,onValue} from 'firebase/database';
+
+import StartGame from './components/startGame';
+import EnterGame from './components/enterGame';
+import Solve from './components/Solve';
+import Friends from './components/friends';
+import { Tabs } from './utils/UI/TabBar/Tabs';
+// import { useGetData } from './utils/data';
+import { useAppContext } from './utils/context/context';
+import ConnectBtn from './components/ConnectBtn';
+// import { id } from 'ethers';
+import RPSLSGame from './components/RPSLS';
+import GameInput from './components/myGames/myGamesToggler';
+import RecoverBtn from './components/RecoverBtn';
+import toast from 'react-hot-toast';
+
+export type GameData = {
+  player1: string;
+  player2: string;
+  stake: number;
+  RPSaddress: string;
+  gameState: 'yetToStart' | 'started' | 'p2Joined' | 'solved';
+};
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedCircle, setSelectedCircle] = useState<string | null>(null);
+  // const [address, setAddress] = useState<string>('');
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  const [gameData, setGameData] = useState<GameData>({
+    player1: '',
+    player2: '',
+    stake: 0,
+    RPSaddress: '',
+    gameState: 'yetToStart',
+  });
+
+  const [tabState, setTabState] = useState<
+    'start' | 'join' | 'solve' | 'friends'
+  >('start');
+
+  // const TabHandler = () => {
+  //   if (!address) return "start";
+
+  //   // For new game or undefined players
+  //   if (!data.player1 && !data.player2) return 'start';
+
+  //   // For player1
+  //   if (data.player1 === address) {
+  //     if (data.gameState === 'yetToStart') return 'start';
+  //     if (data.gameState === 'p2Joined') return "solve";
+  //     return 'start'; // Default to tab 1 for player1 in other states
+  //   }
+
+  //   // For player2
+  //   if (data.player2 === address) {
+  //     if (data.gameState === 'started') return 'join';
+  //     if (data.gameState === 'p2Joined') return "solve";
+
+  //     return 'start'; // Stay in tab 2 for all player2 states
+  //   }
+
+  //   // Default case
+  //   return 'start';
+  // };
+
+  const Data = useAppContext();
+
+  const checkCurrentAccount = () => {
+    console.log('frpm check current account......................');
+    if (typeof window !== 'undefined' && window.ethereum) {
+      window.ethereum.on('accountsChanged', async () => {
+        const accounts = await window.ethereum!.request({
+          method: 'eth_accounts',
+        });
+        Data.setOwner(accounts[0]);
+        toast.success('Address changed successfully');
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkCurrentAccount();
+  }, []);
+
+  return (
+    <div className={styles.container}>
+      {Data.owner && <GameInput />}
+      {Data.currentGameId && <RecoverBtn />}
+      <RPSLSGame
+        selectedCircle={selectedCircle}
+        setSelectedCircle={setSelectedCircle}
+      />
+
+      {Data.owner ? (
+        <div style={{ minHeight: '75%', marginTop: '5rem' }}>
+          <Tabs currentTab={tabState} tabState={setTabState} />
+
+          <div>
+            {(() => {
+              switch (tabState) {
+                case 'start':
+                  return (
+                    <StartGame
+                      selectedCircle={selectedCircle}
+                      gameData={setGameData}
+                    />
+                  );
+                case 'join':
+                  return (
+                    <EnterGame
+                      selectedCircle={selectedCircle}
+                      setGameData={setGameData}
+                      RPSaddress={gameData.RPSaddress}
+                    />
+                  );
+                case 'solve':
+                  return <Solve selectedCircle={selectedCircle} />;
+                case 'friends':
+                  return <Friends tabState={setTabState} />;
+                default:
+                  return 'start';
+              }
+            })()}
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ) : (
+        <ConnectBtn />
+      )}
     </div>
   );
 }
