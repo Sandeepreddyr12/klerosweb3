@@ -102,6 +102,13 @@ export default function EnterGame({
       return;
     }
 
+     if (address !== Data.GameData.player2) {
+       toast.warn(
+        `u are not allowed to Enter the game, login with ${Data.GameData.player2}`
+       );
+       return;
+     }
+
     console.log('entergame');
 
     // const contAdress = '0x7c3ed8df2d514050f15101e7c357d854b67b7508';

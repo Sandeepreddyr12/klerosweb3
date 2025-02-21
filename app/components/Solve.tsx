@@ -77,6 +77,12 @@ const SolveGame = ({ selectedCircle }: Props) => {
        );
        return;
      }
+      if (address !== Data.GameData.player1) {
+       toast.warn(
+         `u are not allowed to solve this game, login with ${Data.GameData.player1}`
+       );
+        return;
+      }
 
     console.log('solve');
 
@@ -92,15 +98,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
       // Get the signer
       const signer = await provider.getSigner();
 
-      if (address !== Data.GameData.player1) {
-        throw new Error('u are not allowed to solve the game');
-        return;
-      }
-
-      
-     
-
-
+    
       const RPSContract = new Contract(
         Data.GameData.RPSaddress,
         RPSArtifact.abi,
