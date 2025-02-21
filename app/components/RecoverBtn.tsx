@@ -1,6 +1,6 @@
 import styles from '../page.module.css';
 import { useAppContext, type gameStateType } from '../utils/context/context';
-import { getGameState } from '../utils/localStorage';
+import { resetGameState } from '../utils/localStorage';
 
 import { ref, update } from 'firebase/database';
 import { ethers, Contract } from 'ethers';
@@ -57,6 +57,8 @@ export default function RecoverBtn(props: Props) {
       if (address === Data.GameData.player1) {
         await RPSContract.j2Timeout();
 
+        resetGameState(Data.currentGameId);
+
         const data = {
           gameState: 'recovered' as gameStateType,
           won_Recovered_By: Data.GameData.player1,
@@ -64,10 +66,12 @@ export default function RecoverBtn(props: Props) {
         };
         await update(ref(db, 'game/' + Data.currentGameId), data);
 
+
         toast.success('Funds recovered successfully');
 
       } else if (address === Data.GameData.player2) {
         await RPSContract.j1Timeout();
+
 
         const data = {
           gameState:'recovered' as gameStateType,
