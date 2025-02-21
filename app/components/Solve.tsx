@@ -116,11 +116,19 @@ const SolveGame = ({ selectedCircle }: Props) => {
       //  console.log(getMoveNumber(selectedCircle || localData?.move), secretKey);
 
       await RPSContract.solve(getMoveNumber(selectedCircle), secretKey);
+     
+     
+      const move2 = await RPSContract.c2();
+
+      console.log(Number(move2), move2);
+
+      const matchResult = gameSolver(getMoveNumber(selectedCircle), Number(move2));
+
 
       const data = {
         gameState: 'finished' as gameStateType,
         timer : Date.now(),
-        won_Recovered_By : address
+        won_Recovered_By : matchResult
       };
       await update(ref(db, 'game/' + Data.currentGameId), data);
 
@@ -148,6 +156,48 @@ const SolveGame = ({ selectedCircle }: Props) => {
   };
 
   console.log('solve');
+
+
+function gameSolver(move1: number, move2: number): string {
+  if (move1 === move2) {
+    toast.info("Match drawn! Both players choosen the same move.");
+    return "Match drawn";
+  }
+  else if (move1 === 0 
+    || move2 === 0
+  ) {
+    toast.error("Invalid move by players");
+    return "Invalid move";
+  }
+  else if (move1 % 2 === move2 % 2) {
+    if (move1 < move2) {
+      toast.success("Player 1 wins!");
+      return "Won by player1";
+    } else {
+      toast.success("Player 2 wins!");
+      return "Won by player2";
+    }
+  }
+  else {
+    if (move1 > move2) {
+      toast.success("Player 1 wins!");
+      return "Won by player1";
+    } else {
+      toast.success("Player 2 wins!");
+      return "Won by player2";
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
   function btnStatus() {
     if (
