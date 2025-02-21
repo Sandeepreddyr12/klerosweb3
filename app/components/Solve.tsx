@@ -26,7 +26,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
   const [localData, setLocalData] = useState<localData>({
     move: '',
     secretKey: '',
-    timer: 0,
   });
 
   const getMoveNumber = (selectedMove: string | null): number => {
@@ -93,11 +92,12 @@ const SolveGame = ({ selectedCircle }: Props) => {
       // Get the signer
       const signer = await provider.getSigner();
 
-      if (address === Data.GameData.player2) {
+      if (address !== Data.GameData.player1) {
         throw new Error('u are not allowed to solve the game');
         return;
       }
 
+      
      
 
 
@@ -107,7 +107,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
         signer
       );
 
-      const toastId = toast.loading('RPS contract initialized...');
 
        toast.update(toastId, {
          render: '🎉 RPS contract initialized...',
@@ -122,6 +121,8 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
       const data = {
         gameState: 'finished' as gameStateType,
+        timer : Date.now(),
+        won_Recovered_By : address
       };
       await update(ref(db, 'game/' + Data.currentGameId), data);
 

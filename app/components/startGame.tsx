@@ -117,6 +117,12 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
         autoClose: 3000,
       });
 
+      // const timer = RPSContract.lastAction();
+
+      // console.log(timer, Date.now() );
+
+      // timer = serverTimestamp(),
+
 
       const data = {
         player1: address1,
@@ -124,6 +130,8 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
         stake: amount,
         RPSaddress: RPSContract,
         gameState: 'started' as gameStateType,
+        timer: Date.now(),
+        won_Recovered_By: '',
       };
       console.log('data', data);
 
@@ -232,3 +240,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     </div>
   );
 }
+function serverTimestamp() {
+  throw new Error('Function not implemented.');
+}
+

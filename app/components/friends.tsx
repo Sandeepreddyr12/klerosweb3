@@ -68,7 +68,7 @@ const Friends = ({ tabState }: TabsProps) => {
           })): (<form className={styles.form}>
         
         <p className={styles.note} style={{fontSize :"1rem"}}>
-          No players in online or check your internet
+          No players online or please check your internet connection
         </p>
 </form>) }
       </ul>

@@ -137,6 +137,7 @@ export default function EnterGame({
       const data = {
         player2: address,
         gameState: 'p2Joined' as gameStateType,
+        timer: Date.now(),
       };
 
       await update(ref(db, 'game/' + Data.currentGameId), data);

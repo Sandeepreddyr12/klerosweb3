@@ -2,18 +2,15 @@
 export type localData = {
   secretKey: string;
   move: string;
-  timer: number;
 };
 
 
 export const saveGameState = (gameId: string, secretKey: string, move: string) => {
-  const timer = Date.now() + 5 * 60 * 1000;
   localStorage.setItem(
     gameId,
     JSON.stringify({
       secretKey,
       move,
-      timer
     })
   );
 };

@@ -29,6 +29,8 @@ type ContextProps = {
     stake: number;
     RPSaddress: string;
     gameState: gameStateType;
+    timer: number;
+    won_Recovered_By: string;
   };
   setCurrentGameId: React.Dispatch<React.SetStateAction<string>>;
   setSelectedAddress: React.Dispatch<React.SetStateAction<string>>;
@@ -43,6 +45,8 @@ type ContextProps = {
       stake: number;
       RPSaddress: string;
       gameState: gameStateType;
+      timer: number;
+      won_Recovered_By : string;
     }>
   >;
 };
@@ -57,6 +61,8 @@ export const defaultContext: ContextProps = {
     stake: 0,
     RPSaddress: '',
     gameState: 'yetToStart',
+    timer : 0,
+    won_Recovered_By : ''
   },
   currentGameId: '',
   setSelectedAddress: () => {},
@@ -145,7 +151,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     };
 
     useEffect(() => {
-      // connectWallet(setAddress);
+      connectWallet(setAddress);
     }, []);
     
     console.log("from context",values);  

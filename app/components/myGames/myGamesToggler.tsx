@@ -40,7 +40,9 @@ const GameInput = () => {
 
       setData(data);
 
-      setSelectedOption(Object.keys(data)[0]);
+      setSelectedOption(
+        Object.keys(data)[0] === 'isEmpty' ? 'New Game' : Object.keys(data)[0]
+      );
     });
   }, [AppState.owner]);
 
@@ -50,7 +52,7 @@ const GameInput = () => {
     console.log(AppState.owner, selectedOption);
 
     if (AppState.owner && selectedOption !== '') {
-      if (selectedOption === 'new Game') {
+      if (selectedOption === 'New Game') {
         AppState.setCurrentGameId('');
         AppState.setGameData({ ...defaultContext.GameData });
       } else {
@@ -67,25 +69,25 @@ const GameInput = () => {
     }
   }, [AppState.owner, selectedOption]);
 
-  const keys = Object.keys(data);
+  // const keys = Object.keys(data);
 
   // useEffect(() => {
   //   setSelectedOption(keys[0]);
   // }, [])
 
-  console.log('ddddddddddddddddddddddddddd', selectedOption, keys);
+  // console.log('ddddddddddddddddddddddddddd', selectedOption, keys);
 
   const newGame = () => {
     console.log('new game');
     toast.info('You have started a new game, Id is created after start');
-    setSelectedOption('new Game');
+    setSelectedOption('New Game');
   };
 
   return (
     <div>
       {data !== undefined &&
         data !== null &&
-        keys.filter((key) => key !== 'isEmpty').length !== 0 && (
+        (
           <div
             className={formStyle.form}
             style={{
@@ -103,10 +105,10 @@ const GameInput = () => {
                 className={styles.listChoiceTitle}
                 onClick={handleDropdownClick}
               >
-                {selectedOption !== '' ? selectedOption : 'Time for new game'}
+                {selectedOption !== '' && selectedOption !== 'isEmpty' ? selectedOption : 'New Game'}
               </div>
               <div className={styles.listChoiceObjects} onBlur={handleFocusOut}>
-                {keys
+                {Object.keys(data)
                   .filter((key) => key !== 'isEmpty')
                   .map((key) => {
                     return (

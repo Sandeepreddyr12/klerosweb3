@@ -58,8 +58,9 @@ export default function RecoverBtn(props: Props) {
         await RPSContract.j2Timeout();
 
         const data = {
-          gameState:
-            ('recovered' as gameStateType) + `by ${Data.GameData.player1}`,
+          gameState: 'recovered' as gameStateType,
+          won_Recovered_By: Data.GameData.player1,
+          timer: Date.now(),
         };
         await update(ref(db, 'game/' + Data.currentGameId), data);
 
@@ -69,8 +70,9 @@ export default function RecoverBtn(props: Props) {
         await RPSContract.j1Timeout();
 
         const data = {
-          gameState:
-            ('recovered' as gameStateType) + `by ${Data.GameData.player2}`,
+          gameState:'recovered' as gameStateType,
+          won_Recovered_By: Data.GameData.player2,
+          timer : Date.now()
         };
         await update(ref(db, 'game/' + Data.currentGameId), data);
          toast.success('Funds recovered successfully');
@@ -87,18 +89,17 @@ export default function RecoverBtn(props: Props) {
   };
 
   const disableRecoverBtn = (): boolean => {
-    const data = getGameState(Data.currentGameId);
 
-    if ((data && typeof data?.timer === 'undefined') || null) return true;
+    if (Data.GameData.won_Recovered_By !== '' || !Data.GameData.timer) return true;
 
-    if (data && Date.now() > Number(data.timer)) {
+    if ( Date.now() >( Number(Data.GameData.timer) + 5 * 60 * 1000)) {
       if (Data.owner === Data.GameData.player1) {
-        return Data.GameData.gameState === 'started';
+        return !(Data.GameData.gameState === 'started');
       } else if (Data.owner === Data.GameData.player2) {
-        return Data.GameData.gameState === 'p2Joined';
+        return !(Data.GameData.gameState === 'p2Joined');
       }
     }
-    return false;
+    return true;
   };
 
   return (
@@ -125,7 +126,7 @@ export default function RecoverBtn(props: Props) {
       {' '}
       <button
         className={styles.submit}
-        disabled={!disableRecoverBtn()}
+        disabled={disableRecoverBtn()}
         // style={{ width: '15rem' }}
         onClick={recoverFunds}
       >
