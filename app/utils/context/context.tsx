@@ -31,6 +31,7 @@ type ContextProps = {
     gameState: gameStateType;
     timer: number;
     won_Recovered_By: string;
+    moves : [string,string];
   };
   setCurrentGameId: React.Dispatch<React.SetStateAction<string>>;
   setSelectedAddress: React.Dispatch<React.SetStateAction<string>>;
@@ -47,6 +48,7 @@ type ContextProps = {
       gameState: gameStateType;
       timer: number;
       won_Recovered_By : string;
+      moves : [string,string];
     }>
   >;
 };
@@ -62,7 +64,8 @@ export const defaultContext: ContextProps = {
     RPSaddress: '',
     gameState: 'yetToStart',
     timer : 0,
-    won_Recovered_By : ''
+    won_Recovered_By : '',
+    moves : ['','']
   },
   currentGameId: '',
   setSelectedAddress: () => {},

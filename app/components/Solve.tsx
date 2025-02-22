@@ -124,15 +124,30 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
       const matchResult = gameSolver(getMoveNumber(selectedCircle), Number(move2));
 
+      const rpssl = ["Rock", "Paper", "Scissors", "Spock", "Lizard"];
+
+      const moves = [selectedCircle, rpssl[Number(move2)]];
 
       const data = {
         gameState: 'finished' as gameStateType,
         timer : Date.now(),
-        won_Recovered_By : matchResult
+        won_Recovered_By : matchResult,
+        moves : moves
       };
       await update(ref(db, 'game/' + Data.currentGameId), data);
 
-      resetGameState(Data.currentGameId);
+      const gameUpdate = {
+        status: 'recovered',
+      };
+
+      await update(
+        ref(db, 'players/' + Data.GameData.player1 + '/' + Data.currentGameId),
+        gameUpdate
+      );
+      await update(
+        ref(db, 'players/' + Data.GameData.player2 + '/' + Data.currentGameId),
+        gameUpdate
+      );
 
        toast.update(toastId, {
          render: '🎉 solved, game is finished',
@@ -172,19 +187,19 @@ function gameSolver(move1: number, move2: number): string {
   else if (move1 % 2 === move2 % 2) {
     if (move1 < move2) {
       toast.success("Player 1 wins!");
-      return "Won by player1";
+      return Data.GameData.player1;
     } else {
       toast.success("Player 2 wins!");
-      return "Won by player2";
+      return Data.GameData.player2;
     }
   }
   else {
     if (move1 > move2) {
       toast.success("Player 1 wins!");
-      return "Won by player1";
+      return Data.GameData.player1;
     } else {
       toast.success("Player 2 wins!");
-      return "Won by player2";
+      return Data.GameData.player2;
     }
   }
 }
