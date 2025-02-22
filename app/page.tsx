@@ -17,6 +17,7 @@ import RPSLSGame from './components/RPSLS';
 import GameInput from './components/myGames/myGamesToggler';
 import RecoverBtn from './components/RecoverBtn';
 import toast from 'react-hot-toast';
+import Modal from './utils/UI/Modal/Modal';
 
 export type GameData = {
   player1: string;
@@ -41,6 +42,11 @@ export default function Home() {
   const [tabState, setTabState] = useState<
     'start' | 'join' | 'solve' | 'friends'
   >('start');
+
+
+
+
+
 
   // const TabHandler = () => {
   //   if (!address) return "start";
@@ -90,6 +96,8 @@ export default function Home() {
     <div className={styles.container}>
       {Data.owner && <GameInput />}
       {Data.currentGameId && <RecoverBtn />}
+      {Data.currentGameId && <Modal />}
+
       <RPSLSGame
         selectedCircle={selectedCircle}
         setSelectedCircle={setSelectedCircle}
