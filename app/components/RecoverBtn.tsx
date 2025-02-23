@@ -2,7 +2,7 @@ import styles from '../page.module.css';
 import { useAppContext, type gameStateType } from '../utils/context/context';
 import { resetGameState } from '../utils/localStorage';
 
-import { ref, update } from 'firebase/database';
+import { ref, update, set } from 'firebase/database';
 import { ethers, Contract } from 'ethers';
 import RPSArtifact from '../../Contract/build/RPS.json';
 import { db } from '@/firebase';
@@ -81,6 +81,24 @@ export default function RecoverBtn(props: Props) {
         await update(ref(db, 'game/' + Data.currentGameId), data);
          toast.success('Funds recovered successfully');
       }
+
+      const gameUpdate = {
+        
+          status: 'recovered',
+        
+      }
+
+      await update(
+        ref(db, 'players/' + Data.GameData.player1+ '/' + Data.currentGameId),
+        gameUpdate
+      );
+      await update(
+        ref(db, 'players/' + Data.GameData.player2 + '/' + Data.currentGameId),
+        gameUpdate
+      );
+
+
+
 
       //  setGameData((prevState) => ({ ...prevState, ...data }));
 

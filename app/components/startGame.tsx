@@ -240,7 +240,5 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     </div>
   );
 }
-function serverTimestamp() {
-  throw new Error('Function not implemented.');
-}
+
 
