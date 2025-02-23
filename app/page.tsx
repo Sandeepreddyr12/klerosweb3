@@ -16,7 +16,7 @@ import ConnectBtn from './components/ConnectBtn';
 import RPSLSGame from './components/RPSLS';
 import GameInput from './components/myGames/myGamesToggler';
 import RecoverBtn from './components/RecoverBtn';
-import toast from 'react-hot-toast';
+import {toast} from 'react-toastify';
 import Modal from './utils/UI/Modal/Modal';
 
 export type GameData = {
@@ -24,7 +24,7 @@ export type GameData = {
   player2: string;
   stake: number;
   RPSaddress: string;
-  gameState: 'yetToStart' | 'started' | 'p2Joined' | 'solved';
+  gameState: 'yetToStart' | 'started' | 'p2Joined' | 'solved' | 'finished' | 'recovered';
 };
 
 export default function Home() {
@@ -42,38 +42,51 @@ export default function Home() {
   const [tabState, setTabState] = useState<
     'start' | 'join' | 'solve' | 'friends'
   >('start');
-
-
-
-
-
-
-  // const TabHandler = () => {
-  //   if (!address) return "start";
-
-  //   // For new game or undefined players
-  //   if (!data.player1 && !data.player2) return 'start';
-
-  //   // For player1
-  //   if (data.player1 === address) {
-  //     if (data.gameState === 'yetToStart') return 'start';
-  //     if (data.gameState === 'p2Joined') return "solve";
-  //     return 'start'; // Default to tab 1 for player1 in other states
-  //   }
-
-  //   // For player2
-  //   if (data.player2 === address) {
-  //     if (data.gameState === 'started') return 'join';
-  //     if (data.gameState === 'p2Joined') return "solve";
-
-  //     return 'start'; // Stay in tab 2 for all player2 states
-  //   }
-
-  //   // Default case
-  //   return 'start';
-  // };
-
+  
   const Data = useAppContext();
+
+
+  useEffect(() => {
+    if (Data.GameData.gameState === 'yetToStart') {
+      setTabState('start');
+    } else if (Data.GameData.gameState === 'finished') {
+      toast.success('this game is finished',{autoClose: 6000});
+   
+    } else if (Data.GameData.gameState === 'p2Joined') {
+      if (Data.GameData.player1 === Data.owner) {
+        toast.info(
+          'Rival has joined, your turn to solve! You may lose the stake after the timeout',
+          { autoClose: 6000 }
+        );
+        setTabState('solve');
+      } else if (Data.GameData.player2 === Data.owner) {
+        toast.info('waiting forrival to solve', { autoClose: 6000 });
+      }
+    } else if (Data.GameData.gameState === 'started') {
+      if (Data.GameData.player1 === Data.owner) {
+        toast.info('wait for player2 to make a move', { autoClose: 6000 });
+        setTabState('join');
+      }else{
+
+        toast.success('game started! join now and make a move', {
+          autoClose: 6000,
+        });
+                setTabState('join');
+
+      }
+    } else if (Data.GameData.gameState === 'recovered') {
+      toast.success('Funds have been recovered! This game has finished.', {
+        autoClose: 6000,
+      });
+    }
+  }, [Data.GameData.gameState, Data.owner]);
+
+
+
+
+
+ 
+
 
   const checkCurrentAccount = () => {
     console.log('frpm check current account......................');
