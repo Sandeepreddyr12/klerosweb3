@@ -10,7 +10,7 @@ type TabsProps = {
   tabState: Dispatch<SetStateAction<'start' | 'join' | 'solve' | 'friends'>>;
 };
 
-export function Tabs({ currentTab ,tabState } : TabsProps) {
+export function Tabs({ currentTab ,tabState } : TabsProps) {  
   // const [currentTab, setCurrentTab] = useState('start');
 
   const data = useAppContext();

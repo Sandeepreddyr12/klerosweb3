@@ -130,9 +130,10 @@ export default function RecoverBtn(props: Props) {
       style={{
         position: 'absolute',
         top: '1rem',
-        right: '2rem',
-        width: '18rem',
+        right: '5vmin',
+        width: '40vmin',
         zIndex: '100',
+        // minWidth: '15vmin',
       }}
       onMouseEnter={(e) => {
         const pTag = e.currentTarget.lastElementChild as HTMLElement;

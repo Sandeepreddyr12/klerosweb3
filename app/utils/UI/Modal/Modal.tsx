@@ -1,6 +1,8 @@
 import styles from './modal.module.css';
 import { useState } from 'react';
 import { useAppContext, type gameStateType } from '../../context/context';
+import infoGif from '../../../../public/media/infoGif.gif';
+import Image from 'next/image';
 
 export default function Modal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,12 +68,15 @@ export default function Modal() {
 
   return (
     <div className={styles.container}>
-      <button
-        className={styles.openBtn}
-        onClick={() => setIsModalOpen(!isModalOpen)}
-      >
-        Open Modal
-      </button>
+      
+        <Image
+          src={infoGif}
+          alt="info"
+          width={60}
+          height={60}
+          onClick={() => setIsModalOpen(!isModalOpen)}
+        />
+
 
       {isModalOpen && (
         <>
@@ -112,7 +117,7 @@ export default function Modal() {
                     Number(Data.GameData.timer) + 5 * 60 * 1000 ? (
                       <>
                         {Data.owner === Data.GameData.player1 ? (
-                         ( Data.GameData.gameState === 'p2Joined') ? (
+                          Data.GameData.gameState === 'p2Joined' ? (
                             <div style={{ color: 'orange' }}>
                               The other player has joined, and the 5-minute
                               timeout has elapsed. You must now solve the game,

@@ -226,9 +226,9 @@ function gameSolver(move1: number, move2: number): string {
   }
 
   return (
-    <div className={styles.formContainer}>
-      <GameItem selectedCircle={selectedCircle || localData?.move} />
+    <div className={styles.formContainer} style={{ padding : '0 6vmin' }}>  
 
+      <GameItem selectedCircle={selectedCircle || localData?.move} />
       <form className={styles.form}>
         <InputForm
           secretKey={secretKey}

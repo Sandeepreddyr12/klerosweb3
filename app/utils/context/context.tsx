@@ -154,7 +154,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     };
 
     useEffect(() => {
-      connectWallet(setAddress);
+      // connectWallet(setAddress);
     }, []);
     
     console.log("from context",values);  

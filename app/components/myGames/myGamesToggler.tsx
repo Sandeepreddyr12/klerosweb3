@@ -7,6 +7,12 @@ import { ref, set, onValue } from 'firebase/database';
 import { useAppContext, defaultContext } from '../../utils/context/context';
 import {toast} from 'react-toastify';
 
+type playersData = {
+  [key: string]: {
+    status: string;
+  }
+}
+
 const GameInput = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
@@ -25,7 +31,7 @@ const GameInput = () => {
     setShowDropdown(false);
   };
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState<playersData>({});
   const AppState = useAppContext();
 
   console.log('from selcet btn', data);
@@ -84,7 +90,7 @@ const GameInput = () => {
   };
 
   return (
-    <div>
+    <>
       {data !== undefined &&
         data !== null &&
         (
@@ -93,9 +99,9 @@ const GameInput = () => {
             style={{
               position: 'absolute',
               top: '1rem',
-              left: '2rem',
+              left: '3vmin',
               zIndex: '100',
-              width: '15rem',
+              width: '35vmin',
               display: 'flex',
               flexDirection: 'row',
             }}
@@ -120,7 +126,17 @@ const GameInput = () => {
                           checked={selectedOption === key}
                           readOnly
                         />{' '}
-                        <span>{key}</span>
+                        <span
+                          style={{
+                            borderRight:
+                              data[key].status === 'finished' ||
+                              data[key].status === 'recovered'
+                                ? '1px solid red'
+                                : 'none',
+                          }}
+                        >
+                          {key}
+                        </span>
                       </label>
                     );
                   })}
@@ -137,7 +153,7 @@ const GameInput = () => {
             </button>
           </div>
         )}
-    </div>
+    </>
   );
 };
 

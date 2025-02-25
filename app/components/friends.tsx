@@ -34,7 +34,7 @@ const Friends = ({ tabState }: TabsProps) => {
   console.log(players, players !== undefined && players !== null);
 
   return (
-    <div className={styles.box}>
+    <div className={styles.friendsContainer}>
       <ul id={styles.friends}>
         {(players && Object.keys(players).length > 0 ) ?
           ( Object.keys(players).map((key: string) => {
@@ -61,7 +61,7 @@ const Friends = ({ tabState }: TabsProps) => {
                   }}
                   key={key}
                 >
-                  {key} <p style={{ fontSize: '.6rem' }}>🟢</p>
+                  {key} <p style={{ fontSize: '.6rem', marginLeft : '1rem' }}>🟢</p>
                 </li>
               );
             }

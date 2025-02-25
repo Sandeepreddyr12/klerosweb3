@@ -50,26 +50,33 @@ export default function Home() {
     if (Data.GameData.gameState === 'yetToStart') {
       setTabState('start');
     } else if (Data.GameData.gameState === 'finished') {
-      toast.success('this game is finished',{autoClose: 6000});
+      toast.success('this game is finished',{autoClose: 6000, position: 'top-center'});
    
     } else if (Data.GameData.gameState === 'p2Joined') {
       if (Data.GameData.player1 === Data.owner) {
         toast.info(
           'Rival has joined, your turn to solve! You may lose the stake after the timeout',
-          { autoClose: 6000 }
+          { autoClose: 6000, position: 'top-center' }
         );
         setTabState('solve');
       } else if (Data.GameData.player2 === Data.owner) {
-        toast.info('waiting forrival to solve', { autoClose: 6000 });
+        toast.info('waiting forrival to solve', {
+          autoClose: 6000,
+          position: 'top-center',
+        });
       }
     } else if (Data.GameData.gameState === 'started') {
       if (Data.GameData.player1 === Data.owner) {
-        toast.info('wait for player2 to make a move', { autoClose: 6000 });
+        toast.info('wait for player2 to make a move', {
+          autoClose: 6000,
+          position: 'top-center',
+        });
         setTabState('join');
       }else{
 
         toast.success('game started! join now and make a move', {
           autoClose: 6000,
+          position: 'top-center'
         });
                 setTabState('join');
 
@@ -77,6 +84,7 @@ export default function Home() {
     } else if (Data.GameData.gameState === 'recovered') {
       toast.success('Funds have been recovered! This game has finished.', {
         autoClose: 6000,
+         position: 'top-center'
       });
     }
   }, [Data.GameData.gameState, Data.owner]);
@@ -117,7 +125,7 @@ export default function Home() {
       />
 
       {Data.owner ? (
-        <div style={{ minHeight: '75%', marginTop: '5rem' }}>
+        <div className={styles.pages}>
           <Tabs currentTab={tabState} tabState={setTabState} />
 
           <div>
@@ -149,7 +157,9 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <ConnectBtn />
+        <div style={{height: '100vh', display :'flex', alignItems : 'center', maxWidth :"90%", margin : 'auto',}}>
+          <ConnectBtn />
+        </div>
       )}
     </div>
   );
