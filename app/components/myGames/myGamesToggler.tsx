@@ -47,7 +47,12 @@ const GameInput = () => {
       setData(data);
 
       setSelectedOption(
-        Object.keys(data)[0] === 'isEmpty' ? 'New Game' : Object.keys(data)[0]
+        data === null ||
+          data === undefined ||
+          Object.keys(data).length === 0 ||
+          Object.keys(data)[0] === 'isEmpty'
+          ? 'New Game'
+          : Object.keys(data)[0]
       );
     });
   }, [AppState.owner]);
