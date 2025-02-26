@@ -148,7 +148,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
 
       await set(ref(db, 'game/' + gameId), data);
 
-      saveGameState(gameId, secretKey, selectedCircle as string);
+      saveGameState(gameId+address1, secretKey, selectedCircle as string);
 
       // toast.success('Game started successfully!', { id: toastId });
       toast.update(toastId, {
@@ -157,6 +157,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
         isLoading: false,
         autoClose: 5000,
       });
+      Data.setSelectedAddress('');
     } catch (error) {
       console.error('Error joining game:', error);
       // toast.error('Failed to start game. Please try again.', { id: toastId });
