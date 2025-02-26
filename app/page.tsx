@@ -54,20 +54,20 @@ export default function Home() {
    
     } else if (Data.GameData.gameState === 'p2Joined') {
       if (Data.GameData.player1 === Data.owner) {
-        toast.info(
+        toast.error(
           'Rival has joined, your turn to solve! You may lose the stake after the timeout',
           { autoClose: 6000, position: 'top-center' }
         );
         setTabState('solve');
       } else if (Data.GameData.player2 === Data.owner) {
-        toast.info('waiting forrival to solve', {
+        toast.info('waiting for Rival to solve', {
           autoClose: 6000,
           position: 'top-center',
         });
       }
     } else if (Data.GameData.gameState === 'started') {
       if (Data.GameData.player1 === Data.owner) {
-        toast.info('wait for player2 to make a move', {
+        toast.info('wait for rival to make a move', {
           autoClose: 6000,
           position: 'top-center',
         });
