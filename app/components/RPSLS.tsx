@@ -33,6 +33,7 @@ const RPSLSGame = ({ selectedCircle, setSelectedCircle }: RPSLSGameProps) => {
                       ? 'lightgray'
                       : 'lightblue',
                   color: name === 'Lizard' ? 'blue' : 'inherit',
+                  margin : 'auto',
                 }}
               >
                 {icon}
