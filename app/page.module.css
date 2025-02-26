@@ -582,6 +582,8 @@ font-size: 5vmin;
   opacity: 1;
 }
 
+
+/* Webkit (Chrome, Safari, Edge) scrollbar styles */
 #friends::-webkit-scrollbar {
   width: 5px;
 }
@@ -591,3 +593,11 @@ font-size: 5vmin;
   background-color: #557aeb;
 }
 
+body::-webkit-scrollbar{
+  width: 5%;
+}
+
+body::-webkit-scrollbar-thumb{
+  background: #557aeb;
+  border-radius: 5%;
+}
