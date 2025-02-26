@@ -57,7 +57,7 @@ export default function RecoverBtn(props: Props) {
       if (address === Data.GameData.player1) {
         await RPSContract.j2Timeout();
 
-        resetGameState(Data.currentGameId);
+        resetGameState(Data.currentGameId + Data.GameData.player1);
 
         const data = {
           gameState: 'recovered' as gameStateType,

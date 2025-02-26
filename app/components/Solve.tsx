@@ -48,7 +48,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
   };
 
   useEffect(() => {
-    const data = getGameState(Data.currentGameId);
+    const data = getGameState(Data.currentGameId+Data.GameData.player1);
     if (data) {
       setLocalData(data);
       setSecretKey(data.secretKey);
@@ -64,8 +64,9 @@ const SolveGame = ({ selectedCircle }: Props) => {
       toast.warn('Please login with wallet to continue.');
       return;
     }
+    console.log(selectedCircle , localData?.move);
 
-     if (!selectedCircle) {
+     if (!selectedCircle && (!localData.move)) {
        toast.warn(
          'Please confirm a move (Rock, Paper, Scissors, Spock, or Lizard)'
        );
@@ -115,18 +116,22 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
       //  console.log(getMoveNumber(selectedCircle || localData?.move), secretKey);
 
-      await RPSContract.solve(getMoveNumber(selectedCircle), secretKey);
+      await RPSContract.solve(
+        getMoveNumber((selectedCircle || localData?.move)),
+        secretKey
+      );
      
      
       const move2 = await RPSContract.c2();
 
       console.log(Number(move2), move2);
 
-      const matchResult = gameSolver(getMoveNumber(selectedCircle), Number(move2));
+      const selectedMove = (selectedCircle || localData?.move);
+      const matchResult = gameSolver(getMoveNumber(selectedMove), Number(move2));
 
       const rpssl = ["Rock", "Paper", "Scissors", "Spock", "Lizard"];
 
-      const moves = [selectedCircle, rpssl[Number(move2)]];
+      const moves = [selectedMove ? selectedMove.split(' ')[1] : '', rpssl[Number(move2) - 1]];
 
       const data = {
         gameState: 'finished' as gameStateType,
@@ -137,7 +142,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
       await update(ref(db, 'game/' + Data.currentGameId), data);
 
       const gameUpdate = {
-        status: 'recovered',
+        status: 'finished',
       };
 
       await update(
@@ -148,6 +153,8 @@ const SolveGame = ({ selectedCircle }: Props) => {
         ref(db, 'players/' + Data.GameData.player2 + '/' + Data.currentGameId),
         gameUpdate
       );
+
+      resetGameState(Data.currentGameId + Data.GameData.player1);
 
        toast.update(toastId, {
          render: '🎉 solved, game is finished',
@@ -186,20 +193,20 @@ function gameSolver(move1: number, move2: number): string {
   }
   else if (move1 % 2 === move2 % 2) {
     if (move1 < move2) {
-      toast.success("Player 1 wins!");
-      return Data.GameData.player1;
+      toast.success(Data.owner === Data.GameData.player1 ? "You win!" : "Rival wins!");
+      return Data.owner === Data.GameData.player1 ? Data.GameData.player1 : Data.GameData.player2;
     } else {
-      toast.success("Player 2 wins!");
-      return Data.GameData.player2;
+      toast.success(Data.owner === Data.GameData.player2 ? "You win!" : "Rival wins!");
+      return Data.owner === Data.GameData.player2 ? Data.GameData.player2 : Data.GameData.player1;
     }
   }
   else {
     if (move1 > move2) {
-      toast.success("Player 1 wins!");
-      return Data.GameData.player1;
+      toast.success(Data.owner === Data.GameData.player1 ? "You win!" : "Rival wins!");
+      return Data.owner === Data.GameData.player1 ? Data.GameData.player1 : Data.GameData.player2;
     } else {
-      toast.success("Player 2 wins!");
-      return Data.GameData.player2;
+      toast.success(Data.owner === Data.GameData.player2 ? "You win!" : "Rival wins!");
+      return Data.owner === Data.GameData.player2 ? Data.GameData.player2 : Data.GameData.player1;
     }
   }
 }
