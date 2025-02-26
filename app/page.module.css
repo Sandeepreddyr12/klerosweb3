@@ -539,10 +539,9 @@ font-size: 5vmin;
 
 
 .friendsContainer {
-  width: 100%;
+  min-width: 100%;
   /* position: relative; */
   margin: 3rem auto auto;
-  padding: auto;
 }
 
 .friendsContainer ul {
@@ -554,9 +553,9 @@ font-size: 5vmin;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
+  justify-content: center;
   padding: 0 1.5rem;
-  
 }
 
 .friendsContainer ul li {
