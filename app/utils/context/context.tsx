@@ -4,6 +4,7 @@ import { createContext, useContext, ReactNode, useState, useEffect } from 'react
 // import {useGetData} from '../data';
 import { db } from '@/firebase';
 import { ref, set,update, get as firebaseGet } from 'firebase/database';
+import { toast } from 'react-toastify';
 // import { GameData } from '../../page';
 
 
@@ -112,11 +113,11 @@ type AppProviderProps = {
            console.log('writing skipped');
          }
 
-       } catch (error) {
-         console.error('Error connecting to wallet:', error);
+       } catch(error) {
+         toast.error('Error connecting to wallet:, please refresh and try again'  );
        }
      } else {
-       console.log('Please install MetaMask');
+       toast.warn('Please install MetaMask');
      }
    };
 
@@ -154,7 +155,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     };
 
     useEffect(() => {
-      // connectWallet(setAddress);
+      connectWallet(setAddress);
     }, []);
     
     console.log("from context",values);  

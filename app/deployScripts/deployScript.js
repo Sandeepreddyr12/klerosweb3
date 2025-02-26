@@ -3,6 +3,7 @@
 import { ethers } from 'ethers';
 import  HasherArtifact from '../../Contract/build/Hasher.json';
 import RPSArtifact from '../../Contract/build/RPS.json';
+import {toast} from 'react-toastify';
 
 export async function deployHasher(
     // provider: JsonRpcProvider,
@@ -39,7 +40,8 @@ export async function deployHasher(
     return hasherContract;
   } catch (error) {
     console.error('Error deploying Hasher contract:', error);
-    throw error;
+    toast.error('Error deploying Hasher contract, retry again');
+
   }
 }
 
@@ -84,6 +86,6 @@ export async function deployRPS(moveHash, player2Address, amount) {
     return address;
   } catch (error) {
     console.error('Error deploying RPS contract:', error);
-    throw error;
+    toast.error('Error deploying Hasher contract, retry again');
   }
 }
