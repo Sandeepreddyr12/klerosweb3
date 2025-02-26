@@ -54,29 +54,45 @@ export default function Modal() {
     return <span style={styles}>{text}</span>;
   }
 
-  function getMove() {
+function getPlayerInfo(isOwner: boolean) {
+    const opponent = Data.owner === Data.GameData.player1 
+        ? Data.GameData.player2 
+        : Data.GameData.player1;
+        
+    const player = isOwner ? Data.owner : opponent;
+    let move = '';
+
     if (
-      Data.GameData.gameState === 'finished' &&
-      Data.GameData.moves[0] !== ''
+        (Data.GameData.gameState === 'finished' ||
+            Data.GameData.gameState === 'recovered') &&
+        Data.GameData.moves[0] !== ''
     ) {
-      return Data.owner === Data.GameData.player1
-        ? Data.GameData.moves[0]
-        : Data.GameData.moves[1];
+        move =
+          Data.GameData.player1 === player
+            ? Data.GameData.moves[0]
+            : Data.GameData.moves[1];
     }
-    return '';
-  }
+
+
+
+   return( <>
+     {player} <span style={{ color: 'gold' }}>{move}</span>{' '}
+    </>);
+}
 
   return (
     <div className={styles.container}>
-      
-        <Image
-          src={infoGif}
-          alt="info"
-          width={60}
-          height={60}
-          onClick={() => setIsModalOpen(!isModalOpen)}
-        />
-
+      <Image
+        src={infoGif}
+        alt="info"
+        width={60}
+        height={60}
+        onClick={() => setIsModalOpen(!isModalOpen)}
+        tabIndex={-1}
+        onKeyUp={(e) => {
+          if (e.key === 'Escape') setIsModalOpen(false);
+        }}
+      />
 
       {isModalOpen && (
         <>
@@ -91,17 +107,8 @@ export default function Modal() {
                   Match : {Data.currentGameId}
                 </h1>
                 <div className={styles.game__description}>
-                  <div>
-                    You :- {Data.owner}{' '}
-                    <span style={{ color: 'gold' }}>{getMove()}</span>{' '}
-                  </div>
-                  <div>
-                    Opp :- {''}
-                    {Data.owner === Data.GameData.player1
-                      ? Data.GameData.player2
-                      : Data.GameData.player1}{' '}
-                    <span style={{ color: 'gold' }}>{getMove()}</span>
-                  </div>
+                  <div>You : {' '}{getPlayerInfo(true)}</div>
+                  <div>Opp : {' '}{getPlayerInfo(false)}</div>
                   <div>Contract :- {Data.GameData.RPSaddress}</div>
                   <div>Status : {status(Data.GameData.gameState)}</div>
                   <div> Stake: {Data.GameData.stake} </div>

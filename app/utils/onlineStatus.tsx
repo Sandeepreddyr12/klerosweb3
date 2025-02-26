@@ -1,3 +1,15 @@
+// import { getDatabase, ref, onValue, get } from 'firebase/database';
+
+
+
+/**
+ * This component was supposed to be a way to create online accounts, kinda like websockets room
+ * I invested two days, and it didn't work out, I'll put it in my feature todo's for now
+ * The idea was to have a presence system, where users are added to a room when they enter the app
+ * and removed when they leave the app. This way, the app can be notified when a user is online
+ * or offline. The problem is that this requires authentication, which I don't have setup yet
+ * So, this component is not working yet, but it's a good idea to have for the future
+ */
 
 
 export default function onlineStatus() {
