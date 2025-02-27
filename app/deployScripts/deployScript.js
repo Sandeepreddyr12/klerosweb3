@@ -25,14 +25,11 @@ export async function deployHasher(
     );
 
     // Deploy the contract
-    console.log('Deploying Hasher contract...');
     const hasherContract = await hasherFactory.deploy();
-    console.log('Hasher contract deployed to:', hasherContract.address);
 
     
       await hasherContract.waitForDeployment(); 
 
-    console.log('hasher contract deployed')
 
     return hasherContract;
   } catch (error) {
@@ -43,16 +40,12 @@ export async function deployHasher(
 
 export async function deployRPS(moveHash, player2Address, amount) {
 
-  console.log('callllled', moveHash, player2Address, amount,window.ethereum) ;
   // Connect to MetaMask
   const provider = new ethers.BrowserProvider(window.ethereum);
-  console.log('provider reached')
   // Request account access
   await provider.send('eth_requestAccounts', []);
-  console.log('account access granted')
   // Get the signer
   const signer = await provider.getSigner();
-  console.log('signer reached')
 
 
   try {
@@ -64,7 +57,6 @@ export async function deployRPS(moveHash, player2Address, amount) {
     );
 
     // Deploy the contract
-    console.log('Deploying RPS contract...');
     const RPSContract = await RPSFactory.deploy(moveHash, player2Address, {
       value: ethers.parseEther(amount.toString()),
     });
@@ -73,8 +65,6 @@ export async function deployRPS(moveHash, player2Address, amount) {
     const deployedContract = await RPSContract.waitForDeployment(); 
 
     const address = await deployedContract.getAddress();
-    console.log('RPS contract deployed to:', await deployedContract.getAddress());
-    console.log('RPS contract deployed');
 
 
     return address;
