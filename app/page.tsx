@@ -93,6 +93,15 @@ export default function Home() {
   ]);
 
   return (
+
+// Note on Performance:
+//  * While sibling components may re-render due to changes in parents, React's reconciliation process
+//  * efficiently handles DOM updates. Although techniques like React.memo and useCallback could 
+//  * potentially optimize re-renders, they would add unnecessary complexity in this case since:
+//  * 1. Each component contains meaningful side effects
+//  * 2. React's built-in diffing algorithm already prevents unnecessary DOM manipulations
+//  * 3. The performance overhead of memoization could outweigh its benefits
+
     <div className={styles.container}>
       {Data.owner && <GameInput />}
       {Data.currentGameId && <RecoverBtn />}
