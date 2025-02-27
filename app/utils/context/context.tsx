@@ -17,11 +17,7 @@ type ContextProps = {
   currentGameId: string;
   selectedAddress: string;
 
-  gameID: {
-    [id: string]: {
-      status: string;
-    };
-  };
+  
   GameData: {
     player1: string;
     player2: string;
@@ -35,9 +31,6 @@ type ContextProps = {
   setCurrentGameId: React.Dispatch<React.SetStateAction<string>>;
   setSelectedAddress: React.Dispatch<React.SetStateAction<string>>;
   setOwner: React.Dispatch<React.SetStateAction<string>>;
-  setGameId: React.Dispatch<
-    React.SetStateAction<{ [id: string]: { status: string } }>
-  >;
   setGameData: React.Dispatch<
     React.SetStateAction<{
       player1: string;
@@ -54,7 +47,6 @@ type ContextProps = {
 
 export const defaultContext: ContextProps = {
   owner: '',
-  gameID: {},
   selectedAddress : '',
   GameData: {
     player1: '',
@@ -70,7 +62,6 @@ export const defaultContext: ContextProps = {
   setSelectedAddress: () => {},
   setCurrentGameId: () => {},
   setOwner: () => {},
-  setGameId: () => {},
   setGameData: () => {},
 };
 
@@ -106,9 +97,8 @@ type AppProviderProps = {
          const snapshot = await firebaseGet(playerRef);
          if (!snapshot.exists()) {
            await set(playerRef, data);
-           console.log('Data added for ' + accounts[0]);
          } else {
-           console.log('writing skipped');
+          //  console.log('writing skipped');
          }
 
        } catch(error) {
@@ -126,7 +116,6 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
 
     const [address, setAddress] = useState<string>('');
-    const [GameId, setGameId] = useState({});
     const [gameData, setGameData] = useState({});
     const [currentGameId, setCurrentGameId] = useState<string>('');
     const [selectedAddress, setSelectedAddress] = useState<string>('');
@@ -136,7 +125,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         ...defaultContext,
         owner: address,
         setOwner: setAddress,
-        setGameId: setGameId,
         setGameData: setGameData,
         currentGameId: currentGameId,
         setCurrentGameId: setCurrentGameId,
@@ -146,10 +134,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             ...defaultContext.GameData,
             ...gameData
         },
-        gameID: {
-            ...defaultContext.gameID,
-            ...GameId
-        }
     };
 
     useEffect(() => {
