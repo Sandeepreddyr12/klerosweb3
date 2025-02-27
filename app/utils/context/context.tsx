@@ -140,7 +140,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       connectWallet(setAddress);
     }, []);
     
-    console.log("from context",values);  
         return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
 };
 

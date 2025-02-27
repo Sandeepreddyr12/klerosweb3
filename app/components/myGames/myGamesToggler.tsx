@@ -48,7 +48,6 @@ const GameInput = () => {
           .sort(([,a], [,b]) => b.createdAt - a.createdAt)
           .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
-        console.log(data);
 
         setData(data);
 
