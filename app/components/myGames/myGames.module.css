@@ -1,11 +1,6 @@
 .listChoice{
-  /* width:10rem; */
-  /* margin-bottom: 2rem; */
   position: relative;
   cursor: pointer;  
-  /* top: 40;
-  left :50;
-  /* height: 1rem; */
   z-index: 100; 
 }
 .listChoice input[type="radio"]{

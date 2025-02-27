@@ -1,12 +1,12 @@
-import styles from './modal.module.css';
-import { useState } from 'react';
-import { useAppContext, type gameStateType } from '../../context/context';
-import infoGif from '../../../../public/media/infoGif.gif';
 import Image from 'next/image';
+import { useState } from 'react';
+
+import styles from './matchInfo.module.css';
+import { useAppContext, type gameStateType } from '../../utils/context/context';
+import infoGif from '../../../public/media/infoGif.gif';
 
 export default function Modal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //   const { info, setInfo } = useState('');
   const Data = useAppContext();
 
   function status(gameState: gameStateType) {
@@ -54,31 +54,32 @@ export default function Modal() {
     return <span style={styles}>{text}</span>;
   }
 
-function getPlayerInfo(isOwner: boolean) {
-    const opponent = Data.owner === Data.GameData.player1 
-        ? Data.GameData.player2 
+  function getPlayerInfo(isOwner: boolean) {
+    const opponent =
+      Data.owner === Data.GameData.player1
+        ? Data.GameData.player2
         : Data.GameData.player1;
-        
+
     const player = isOwner ? Data.owner : opponent;
     let move = '';
 
     if (
-        (Data.GameData.gameState === 'finished' ||
-            Data.GameData.gameState === 'recovered') &&
-        Data.GameData.moves[0] !== ''
+      (Data.GameData.gameState === 'finished' ||
+        Data.GameData.gameState === 'recovered') &&
+      Data.GameData.moves[0] !== ''
     ) {
-        move =
-          Data.GameData.player1 === player
-            ? Data.GameData.moves[0]
-            : Data.GameData.moves[1];
+      move =
+        Data.GameData.player1 === player
+          ? Data.GameData.moves[0]
+          : Data.GameData.moves[1];
     }
 
-
-
-   return( <>
-     {player} <span style={{ color: 'gold' }}>{move}</span>{' '}
-    </>);
-}
+    return (
+      <>
+        {player} <span style={{ color: 'gold' }}>{move}</span>{' '}
+      </>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -107,8 +108,8 @@ function getPlayerInfo(isOwner: boolean) {
                   Match : {Data.currentGameId}
                 </h1>
                 <div className={styles.game__description}>
-                  <div>You : {' '}{getPlayerInfo(true)}</div>
-                  <div>Opp : {' '}{getPlayerInfo(false)}</div>
+                  <div>You : {getPlayerInfo(true)}</div>
+                  <div>Opp : {getPlayerInfo(false)}</div>
                   <div>Contract :- {Data.GameData.RPSaddress}</div>
                   <div>Status : {status(Data.GameData.gameState)}</div>
                   <div> Stake: {Data.GameData.stake} </div>
@@ -151,7 +152,6 @@ function getPlayerInfo(isOwner: boolean) {
                 )}
               </div>
 
-              {/* <button className= {styles.modal__btn}>Button →</button> */}
 
               <button
                 className={styles.closeBtn}

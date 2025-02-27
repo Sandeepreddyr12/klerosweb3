@@ -6,8 +6,7 @@ import RPSArtifact from '../../Contract/build/RPS.json';
 import {toast} from 'react-toastify';
 
 export async function deployHasher(
-    // provider: JsonRpcProvider,
-    // signer: ethers.Signer
+    
 ) {
   // Connect to MetaMask
   const provider = new ethers.BrowserProvider(window.ethereum);
@@ -30,16 +29,13 @@ export async function deployHasher(
     const hasherContract = await hasherFactory.deploy();
     console.log('Hasher contract deployed to:', hasherContract.address);
 
-    // Wait for the contract to be deployed
-    // await hasherContract.deployed();
-
+    
       await hasherContract.waitForDeployment(); 
 
     console.log('hasher contract deployed')
 
     return hasherContract;
   } catch (error) {
-    console.error('Error deploying Hasher contract:', error);
     toast.error('Error deploying Hasher contract, retry again');
 
   }
@@ -73,8 +69,6 @@ export async function deployRPS(moveHash, player2Address, amount) {
       value: ethers.parseEther(amount.toString()),
     });
     
-    // Wait for the contract to be deployed
-    // await RPSContract.deployed();
     
     const deployedContract = await RPSContract.waitForDeployment(); 
 
@@ -85,7 +79,6 @@ export async function deployRPS(moveHash, player2Address, amount) {
 
     return address;
   } catch (error) {
-    console.error('Error deploying RPS contract:', error);
     toast.error('Error deploying Hasher contract, retry again');
   }
 }

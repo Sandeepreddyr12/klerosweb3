@@ -7,8 +7,8 @@
   margin: auto;
   flex-wrap: nowrap;
   height: 100%;
-  /* overflow-y: hidden; */
   background: linear-gradient(180deg, #1e075f 21.45%, #9013fe);
+
 }
 
 
@@ -24,10 +24,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
-  margin-left: 5rem;
+  margin: 5rem 5rem 0 5rem;
   
-/* min-width: 450px; */
 }
 
 @media (max-width: 800px) {
@@ -39,6 +37,7 @@
   .rpsContainer{
     margin-top: 8rem;
     margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -181,7 +180,7 @@
 /* form from here */
 
 .pages{
-  width: 45%;
+  width: 80vmin;
 /* margin-top: 15rem; */
 min-height: 100vh;
 position: relative;
@@ -192,7 +191,7 @@ position: relative;
   margin-bottom: 1.5rem;
   /* min-width: 350px; */
   /* width: 100%; */
-  /* margin-bottom: 10rem; */
+  /* margin-bottom: 10rem; */    
 }
 
 @media (max-width: 768px) {
@@ -583,7 +582,6 @@ font-size: 5vmin;
 }
 
 
-/* Webkit (Chrome, Safari, Edge) scrollbar styles */
 #friends::-webkit-scrollbar {
   width: 5px;
 }

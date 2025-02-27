@@ -1,33 +1,24 @@
 import { useEffect, useState } from 'react';
-import styles from '../page.module.css';
-import { type GameData } from '../page';
+import {toast} from 'react-toastify';
 import { db } from '@/firebase';
 import { ref, set, update } from 'firebase/database';
+
+import styles from '../page.module.css';
 import { useAppContext, type gameStateType } from '../utils/context/context';
 import { saveGameState } from '../utils/localStorage';
-import {toast} from 'react-toastify';
-
 import { deployHasher, deployRPS } from '../deployScripts/deployScript';
 import { GameItem, InputForm, NumberInput } from '../utils/UI/UIcomponents';
 
-declare global {
-  interface Window {
-    ethereum?: {
-      isMetaMask?: boolean;
-    };
-  }
-}
 
 type Props = {
   selectedCircle: string | null;
-  gameData: (data: GameData) => void;
 };
 
-export default function StartGame({ selectedCircle, gameData }: Props) {
+export default function StartGame({ selectedCircle }: Props) {
   const [amount, setAmount] = useState(0);
   const [address, setAddress] = useState('');
   const [secretKey, setSecretKey] = useState('');
-  // const [MetaMaskInstalled, setMetaMaskInstalled] = useState(false);
+  const Data = useAppContext();
 
   const getMoveNumber = (selectedMove: string | null): number => {
     if (!selectedMove) return 0;
@@ -48,28 +39,18 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     }
   };
 
-  const Data = useAppContext();
 
-  console.log(Data);
 
-  const entryFee = 0.01;
+ 
 
-  // useEffect(() => {
-  //   setMetaMaskInstalled(window.ethereum?.isMetaMask ?? false);
-
-  // }, []);
-
+  
   useEffect(() => {
     if (!address) {
       setAddress(Data.selectedAddress);
     }
   }, []);
 
-  // const lstfunc = ()=>{
-
-  //   saveGameState("quhb59im81i", secretKey, selectedCircle as string);
-
-  //  }
+  
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let HasherContract: any;
@@ -86,7 +67,6 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     
     try {
       HasherContract = await deployHasher();
-      // toast.loading('Hasher Contract deployed', { id: toastId });
 
       toast.update(toastId, {
         render: '🎉 Hasher Contract deployed',
@@ -108,7 +88,6 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
       });
 
       RPSContract = await deployRPS(hashedMove, address, amount);
-      // toast.loading('RPS Contract deployed', { id: toastId });
 
       toast.update(toastId, {
         render: '🎉 RPS Contract deployed',
@@ -119,10 +98,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
 
       // const timer = RPSContract.lastAction();
 
-      // console.log(timer, Date.now() );
-
-      // timer = serverTimestamp(),
-
+    
 
       const data = {
         player1: address1,
@@ -133,7 +109,6 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
         timer: Date.now(),
         won_Recovered_By: '',
       };
-      console.log('data', data);
 
       const gameId = Math.random().toString(36).substring(2, 17).toString();
 
@@ -150,7 +125,6 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
 
       saveGameState(gameId+address1, secretKey, selectedCircle as string);
 
-      // toast.success('Game started successfully!', { id: toastId });
       toast.update(toastId, {
         render: '🎉 Game started successfully!',
         type: 'success',
@@ -159,8 +133,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
       });
       Data.setSelectedAddress('');
     } catch (error) {
-      console.error('Error joining game:', error);
-      // toast.error('Failed to start game. Please try again.', { id: toastId });
+      // console.error('Error joining game:', error);
       toast.update(toastId, {
         render: '🎉Something went wrong,Failed to start game. Please try again',
         type: 'error',
@@ -195,7 +168,7 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
     }
     if (!amount) {
       toast.warn(
-        `Please enter an amount greater than or equal to ${entryFee} ETH`
+        `Please enter an amount greater than or equal to 0.001 ETH`
       );
       return false;
     }
@@ -225,7 +198,6 @@ export default function StartGame({ selectedCircle, gameData }: Props) {
         <NumberInput
           amount={amount}
           setAmount={setAmount}
-          entryFee={entryFee}
         />
         <button
           className={styles.submit}

@@ -1,28 +1,25 @@
-import styles from '../page.module.css';
-import { useAppContext, type gameStateType } from '../utils/context/context';
-import { resetGameState } from '../utils/localStorage';
+'use client';
 
-import { ref, update, set } from 'firebase/database';
+import { ref, update } from 'firebase/database';
 import { ethers, Contract } from 'ethers';
-import RPSArtifact from '../../Contract/build/RPS.json';
 import { db } from '@/firebase';
 import { toast } from 'react-toastify';
 
-type Props = {};
+import styles from '../page.module.css';
+import { useAppContext, type gameStateType } from '../utils/context/context';
+import { resetGameState } from '../utils/localStorage';
+import RPSArtifact from '../../Contract/build/RPS.json';
 
-export default function RecoverBtn(props: Props) {
+
+
+export default function RecoverBtn() {
   const Data = useAppContext();
 
-  // const [info, setInfo] = useState('')
 
   const recoverFunds = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    //    if (!MetaMaskInstalled) {
-    //      alert('Please install MetaMask to continue');
-    //      return;
-    //    }
-
+  
     const address = Data.owner;
 
     if (!address) {
@@ -30,7 +27,6 @@ export default function RecoverBtn(props: Props) {
       return;
     }
 
-    console.log('timeout');
 
     try {
       if (!window.ethereum) {
@@ -43,10 +39,6 @@ export default function RecoverBtn(props: Props) {
       // Get the signer
       const signer = await provider.getSigner();
 
-      // const accounts = await window.ethereum?.request({
-      //   method: 'eth_requestAccounts',
-      // });
-      // const [address] = accounts || [''];
 
       const RPSContract = new Contract(
         Data.GameData.RPSaddress,
@@ -99,14 +91,9 @@ export default function RecoverBtn(props: Props) {
 
 
 
-
-      //  setGameData((prevState) => ({ ...prevState, ...data }));
-
-      console.log('funds recovered');
     } catch (error) {
-      console.error('Error recovering funds:', error);
+      // console.error('Error recovering funds:', error);
         toast.error('Failed to recover funds. Please try again.');
-      // alert('Failed to join game. Please try again.');
     }
   };
 

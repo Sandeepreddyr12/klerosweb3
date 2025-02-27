@@ -2,7 +2,6 @@
 
 import styles from '../page.module.css';
 import CurvedArrowSvg, { StraightArrowSvg } from '../utils/arrowSvg/arrow';
-// import GameInput from '../utils/UI/gameInputToggle/gameInput';
 
 
 type RPSLSGameProps = {

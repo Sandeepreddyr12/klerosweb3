@@ -2,42 +2,27 @@
 
 import { useEffect, useState } from 'react';
 import { ethers, Contract } from 'ethers';
-import RPSArtifact from '../../Contract/build/RPS.json';
 import { db } from '@/firebase';
 import { ref, update } from 'firebase/database';
-import { gameStateType, useAppContext } from '../utils/context/context';
-// import GameInput from '../utils/UI/gameInputToggle/gameInput';
-
-import styles from '../page.module.css';
-import { type GameData } from '../page';
-
-// import { deployHasher, deployRPS } from '../deployScripts/deployScript';
-import { GameItem } from '../utils/UI/UIcomponents';
 import { toast } from 'react-toastify';
 
-declare global {
-  interface Window {
-    ethereum?: {
-      isMetaMask?: boolean;
-    };
-  }
-}
+
+import RPSArtifact from '../../Contract/build/RPS.json';
+import { gameStateType, useAppContext } from '../utils/context/context';
+import styles from '../page.module.css';
+import { GameItem } from '../utils/UI/UIcomponents';
+
+
 
 type Props = {
   selectedCircle: string | null;
-  setGameData: (data: GameData) => void;
-  RPSaddress: string;
 };
 
 export default function EnterGame({
   selectedCircle,
-  setGameData,
-  RPSaddress,
 }: Props) {
-  // const [amount, setAmount] = useState(0);
 
   const Data = useAppContext();
-  console.log('enter game', Data);
 
   const [MetaMaskInstalled, setMetaMaskInstalled] = useState(false);
 
@@ -60,7 +45,6 @@ export default function EnterGame({
     }
   };
 
-  // const entryFee = 0.01;
 
   function btnStatus() {
     if (
@@ -77,8 +61,7 @@ export default function EnterGame({
     setMetaMaskInstalled(window.ethereum?.isMetaMask ?? false);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // let RPSContract: any;
+  
 
   const EnterGame = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,9 +92,6 @@ export default function EnterGame({
        return;
      }
 
-    console.log('entergame');
-
-    // const contAdress = '0x7c3ed8df2d514050f15101e7c357d854b67b7508';
 
     try {
       if (!window.ethereum) {
@@ -129,13 +109,9 @@ export default function EnterGame({
         signer
       );
 
-      console.log(Data.GameData.RPSaddress);
-
-      console.log('initlized rps contract', RPSContract);
 
       const stake = await RPSContract.stake();
 
-      console.log(stake);
 
       await RPSContract.play(getMoveNumber(selectedCircle), {
         value: stake,
@@ -151,12 +127,8 @@ export default function EnterGame({
 
       toast.success('Game joined successfully!');
 
-      // setGameData(prevState => ({ ...prevState, ...data }));
 
-      console.log('RPSContract play function called');
     } catch (error) {
-      console.error('Error joining game:', error);
-      // alert('Failed to join game. Please try again.');
       toast.error('Failed to join game. Please try again.');
     }
   };

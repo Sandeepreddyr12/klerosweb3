@@ -1,11 +1,13 @@
-import { use, useEffect, useState } from 'react';
+'use client';
+
+import {  useEffect, useState } from 'react';
+import { db } from '@/firebase';
+import { ref,  onValue } from 'firebase/database';
+import {toast} from 'react-toastify';
+
 import styles from './myGames.module.css';
 import formStyle from '../../page.module.css';
-
-import { db } from '@/firebase';
-import { ref, set, onValue } from 'firebase/database';
 import { useAppContext, defaultContext } from '../../utils/context/context';
-import {toast} from 'react-toastify';
 
 type playersData = {
   [key: string]: {
@@ -34,7 +36,6 @@ const GameInput = () => {
   const [data, setData] = useState<playersData>({});
   const AppState = useAppContext();
 
-  console.log('from selcet btn', data);
 
   useEffect(() => {
     if (!AppState.owner) return;
@@ -42,7 +43,6 @@ const GameInput = () => {
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
 
-      console.log('bbbbbbbbbbb');
 
       setData(data);
 
@@ -58,9 +58,6 @@ const GameInput = () => {
   }, [AppState.owner]);
 
   useEffect(() => {
-    console.log('aaaaaaaa');
-
-    console.log(AppState.owner, selectedOption);
 
     if (AppState.owner && selectedOption !== '') {
       if (selectedOption === 'New Game') {
@@ -72,7 +69,6 @@ const GameInput = () => {
         const starCountRef = ref(db, 'game/' + selectedOption);
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
-          console.log('dfaaa', data);
 
           AppState.setGameData(data);
         });
@@ -80,16 +76,8 @@ const GameInput = () => {
     }
   }, [AppState.owner, selectedOption]);
 
-  // const keys = Object.keys(data);
-
-  // useEffect(() => {
-  //   setSelectedOption(keys[0]);
-  // }, [])
-
-  // console.log('ddddddddddddddddddddddddddd', selectedOption, keys);
 
   const newGame = () => {
-    console.log('new game');
     toast.info('You have started a new game, Id is created after start');
     setSelectedOption('New Game');
   };

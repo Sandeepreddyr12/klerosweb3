@@ -1,11 +1,9 @@
 'use client';
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-// import {useGetData} from '../data';
 import { db } from '@/firebase';
-import { ref, set,update, get as firebaseGet } from 'firebase/database';
+import { ref, set, get as firebaseGet } from 'firebase/database';
 import { toast } from 'react-toastify';
-// import { GameData } from '../../page';
 
 
 

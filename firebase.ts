@@ -6,7 +6,7 @@ import { getDatabase } from 'firebase/database';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAb-bT0SYqdPkPcjI64QLYLb5roDS98cm8',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: 'rpsls-multiplayer-game-dae0f.firebaseapp.com',
   databaseURL:
     'https://rpsls-multiplayer-game-dae0f-default-rtdb.asia-southeast1.firebasedatabase.app',
@@ -17,7 +17,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const app =  initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 export const db = getDatabase(app);

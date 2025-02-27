@@ -1,57 +1,57 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from './page.module.css';
-// import { ref, set ,onValue} from 'firebase/database';
+import { toast } from 'react-toastify';
 
+import styles from './page.module.css';
+import { useAppContext } from './utils/context/context';
+import RPSLSGame from './components/RPSLS';
 import StartGame from './components/startGame';
 import EnterGame from './components/enterGame';
 import Solve from './components/Solve';
 import Friends from './components/friends';
 import { Tabs } from './utils/UI/TabBar/Tabs';
-// import { useGetData } from './utils/data';
-import { useAppContext } from './utils/context/context';
 import ConnectBtn from './components/ConnectBtn';
-// import { id } from 'ethers';
-import RPSLSGame from './components/RPSLS';
 import GameInput from './components/myGames/myGamesToggler';
 import RecoverBtn from './components/RecoverBtn';
-import {toast} from 'react-toastify';
-import Modal from './utils/UI/Modal/Modal';
+import Modal from './components/Details/matchInfo';
 
-export type GameData = {
-  player1: string;
-  player2: string;
-  stake: number;
-  RPSaddress: string;
-  gameState: 'yetToStart' | 'started' | 'p2Joined' | 'solved' | 'finished' | 'recovered';
-};
 
 export default function Home() {
   const [selectedCircle, setSelectedCircle] = useState<string | null>(null);
-  // const [address, setAddress] = useState<string>('');
-
-  const [gameData, setGameData] = useState<GameData>({
-    player1: '',
-    player2: '',
-    stake: 0,
-    RPSaddress: '',
-    gameState: 'yetToStart',
-  });
 
   const [tabState, setTabState] = useState<
     'start' | 'join' | 'solve' | 'friends'
   >('start');
-  
+
   const Data = useAppContext();
 
+  const checkCurrentAccount = () => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      window.ethereum.on('accountsChanged', async () => {
+        const accounts = (await window.ethereum!.request({
+          method: 'eth_accounts',
+        })) as string[];
+        if (accounts && accounts.length > 0) {
+          Data.setOwner(accounts[0]);
+          toast.success('Address changed successfully');
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkCurrentAccount();
+  }, []);
 
   useEffect(() => {
     if (Data.GameData.gameState === 'yetToStart') {
       setTabState('start');
     } else if (Data.GameData.gameState === 'finished') {
-      toast.success('this game is finished',{autoClose: 6000, position: 'top-center'});
-   
+      toast.success('this game is finished', {
+        autoClose: 6000,
+        position: 'top-center',
+      });
     } else if (Data.GameData.gameState === 'p2Joined') {
       if (Data.GameData.player1 === Data.owner) {
         toast.error(
@@ -72,46 +72,25 @@ export default function Home() {
           position: 'top-center',
         });
         setTabState('join');
-      }else{
-
+      } else {
         toast.success('game started! join now and make a move', {
           autoClose: 6000,
-          position: 'top-center'
+          position: 'top-center',
         });
-                setTabState('join');
-
+        setTabState('join');
       }
     } else if (Data.GameData.gameState === 'recovered') {
       toast.success('Funds have been recovered! This game has finished.', {
         autoClose: 6000,
-         position: 'top-center'
+        position: 'top-center',
       });
     }
-  }, [Data.GameData.gameState, Data.owner]);
-
-
-
-
-
- 
-
-
-  const checkCurrentAccount = () => {
-    console.log('frpm check current account......................');
-    if (typeof window !== 'undefined' && window.ethereum) {
-      window.ethereum.on('accountsChanged', async () => {
-        const accounts = await window.ethereum!.request({
-          method: 'eth_accounts',
-        });
-        Data.setOwner(accounts[0]);
-        toast.success('Address changed successfully');
-      });
-    }
-  };
-
-  useEffect(() => {
-    checkCurrentAccount();
-  }, []);
+  }, [
+    Data.GameData.gameState,
+    Data.owner,
+    Data.GameData.player1,
+    Data.GameData.player2,
+  ]);
 
   return (
     <div className={styles.container}>
@@ -132,20 +111,9 @@ export default function Home() {
             {(() => {
               switch (tabState) {
                 case 'start':
-                  return (
-                    <StartGame
-                      selectedCircle={selectedCircle}
-                      gameData={setGameData}
-                    />
-                  );
+                  return <StartGame selectedCircle={selectedCircle} />;
                 case 'join':
-                  return (
-                    <EnterGame
-                      selectedCircle={selectedCircle}
-                      setGameData={setGameData}
-                      RPSaddress={gameData.RPSaddress}
-                    />
-                  );
+                  return <EnterGame selectedCircle={selectedCircle} />;
                 case 'solve':
                   return <Solve selectedCircle={selectedCircle} />;
                 case 'friends':
@@ -157,7 +125,15 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div style={{height: '100vh', display :'flex', alignItems : 'center', maxWidth :"90%", margin : 'auto',}}>
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            maxWidth: '90%',
+            margin: 'auto',
+          }}
+        >
           <ConnectBtn />
         </div>
       )}

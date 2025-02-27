@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import { ref, update } from 'firebase/database';
+import { ethers, Contract } from 'ethers';
+import { db } from '@/firebase';
+import { toast } from 'react-toastify';
 
 import styles from '../page.module.css';
 import { GameItem, InputForm } from '../utils/UI/UIcomponents';
@@ -8,16 +12,11 @@ import {
   resetGameState,
   type localData,
 } from '../utils/localStorage';
-
-import { ref, update } from 'firebase/database';
-import { ethers, Contract } from 'ethers';
 import RPSArtifact from '../../Contract/build/RPS.json';
-import { db } from '@/firebase';
-import { toast } from 'react-toastify';
+
 
 type Props = {
   selectedCircle: string | null;
-  //  gameData: (data: GameData) => void;
 };
 
 const SolveGame = ({ selectedCircle }: Props) => {
@@ -64,7 +63,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
       toast.warn('Please login with wallet to continue.');
       return;
     }
-    console.log(selectedCircle , localData?.move);
 
      if (!selectedCircle && (!localData.move)) {
        toast.warn(
@@ -85,7 +83,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
         return;
       }
 
-    console.log('solve');
 
      const toastId = toast.loading('intializing RPS contract...');
 
@@ -114,7 +111,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
          autoClose: 4000,
        });
 
-      //  console.log(getMoveNumber(selectedCircle || localData?.move), secretKey);
 
       await RPSContract.solve(
         getMoveNumber((selectedCircle || localData?.move)),
@@ -124,7 +120,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
      
       const move2 = await RPSContract.c2();
 
-      console.log(Number(move2), move2);
 
       const selectedMove = (selectedCircle || localData?.move);
       const matchResult = gameSolver(getMoveNumber(selectedMove), Number(move2));
@@ -165,9 +160,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
       //  setGameData((prevState) => ({ ...prevState, ...data }));
 
-      console.log('RPSContract solve function called');
     } catch (error) {
-      console.error('Error solving game:', error);
       toast.update(toastId, {
         render: '🎉Something went wrong,Failed to start game. Please try again',
         type: 'error',
@@ -177,7 +170,6 @@ const SolveGame = ({ selectedCircle }: Props) => {
     }
   };
 
-  console.log('solve');
 
 
 function gameSolver(move1: number, move2: number): string {
@@ -210,12 +202,6 @@ function gameSolver(move1: number, move2: number): string {
     }
   }
 }
-
-
-
-
-
-
 
 
 

@@ -1,11 +1,10 @@
-import styles from '../../page.module.css';
-// import './UI.css';
-import {  useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
+
+import styles from '../../page.module.css';
 import KlerosLogo from '../../../public/media/klerosLogo.png'
 
-// import {useAppContext} from '../context/context';
-// import { useLastChanged } from '../lastChanged';
+
 
 type MoveType = 'Rock' | 'Paper' | 'Scissors' | 'Lizard' | 'Spock';
 export type GameItemProps = {
@@ -117,7 +116,7 @@ export const InputForm = ({
         placeholder=""
         required
         value={address}
-        onChange={(e) => setAddress((e.target.value).toLowerCase())}
+        onChange={(e) => setAddress?.(e.target.value.toLowerCase())}
           />
           <span>Address</span>
         </label>
@@ -151,21 +150,28 @@ export const InputForm = ({
 
 
 
+
+
+//its a custom number input component
+//it takes amount and setAmount as props
+
 export type NumberInputProps = {
     amount: number;
-    setAmount: any;
-    entryFee : number;
+    setAmount: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function NumberInput({ amount,setAmount,entryFee}: NumberInputProps) {
-    return (
+export function NumberInput({ amount,setAmount}: NumberInputProps) {
+    
+   const entryFee = 0.001;
+  
+  return (
       <div className={styles.customNumberInput}>
         <div className={styles.inputContainer}>
           <button
             onClick={() =>
               setAmount((prev) =>
-                +(prev - 0.02).toFixed(3) > entryFee
-                  ? +(prev - 0.02).toFixed(3)
+                +(prev - 0.002).toFixed(3) > entryFee
+                  ? +(prev - 0.002).toFixed(3)
                   : entryFee
               )
             }
@@ -192,7 +198,7 @@ export function NumberInput({ amount,setAmount,entryFee}: NumberInputProps) {
             // disabled={!HelperVar}
           />
           <button
-            onClick={() => setAmount((prev) => +(prev + 0.02).toFixed(3))}
+            onClick={() => setAmount((prev) => +(prev + 0.002).toFixed(3))}
             data-action="increment"
             // disabled={!HelperVar}
             className={styles.incrementButton}

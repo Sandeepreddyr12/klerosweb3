@@ -1,9 +1,10 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import styles from '../page.module.css';
 import { db } from '@/firebase';
-import { ref, set,get, onValue,onDisconnect,serverTimestamp } from 'firebase/database';
-import { useAppContext } from '../utils/context/context';
 import { toast } from 'react-toastify';
+import { ref, onValue } from 'firebase/database';
+
+import styles from '../page.module.css';
+import { useAppContext } from '../utils/context/context';
 
 
 
@@ -17,21 +18,17 @@ const Friends = ({ tabState }: TabsProps) => {
   const [players, setPlayers] = useState({});
 
   useEffect(() => {
-    // if(!AppState.owner)return;
     const starCountRef = ref(db, 'players/');
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
 
-      console.log('bbbbbbbbbbb');
 
       setPlayers(data);
     });
 
-    console.log(Data.selectedAddress);
   }, []);
 
 
-  console.log(players, players !== undefined && players !== null);
 
   return (
     <div className={styles.friendsContainer}>
@@ -42,7 +39,6 @@ const Friends = ({ tabState }: TabsProps) => {
               return (
                 <li
                   onClick={() => {
-                    console.log('clicked u cant play with yourself,');
                     toast.info('You cant play with yourself');
                   }}
                   key={key}
@@ -54,7 +50,6 @@ const Friends = ({ tabState }: TabsProps) => {
               return (
                 <li
                   onClick={() => {
-                    console.log('clicked', key);
                     tabState('start');
                     toast.info(`You've chosen to play with ${key}. Redirecting to start game...`);
                      Data.setSelectedAddress(key);
