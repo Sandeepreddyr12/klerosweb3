@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {toast} from 'react-toastify';
 import { db } from '@/firebase';
-import { ref, set, update } from 'firebase/database';
+import { ref, set, update, serverTimestamp } from 'firebase/database';
 
 import styles from '../page.module.css';
 import { useAppContext, type gameStateType } from '../utils/context/context';
@@ -115,6 +115,7 @@ export default function StartGame({ selectedCircle }: Props) {
       const gameAdd = {
         [gameId]: {
           status: data.gameState,
+          createdAt: serverTimestamp(),
         },
       };
 
@@ -192,13 +193,11 @@ export default function StartGame({ selectedCircle }: Props) {
           // hideInput={false}
         />
         <button className={styles.submit} onClick={generateSecureRandomNumber}>
-          Generate <span style={{ fontSize: '.6rem', color : "black"}}>more secure</span>
+          Generate{' '}
+          <span style={{ fontSize: '.6rem', color: 'black' }}>more secure</span>
         </button>
 
-        <NumberInput
-          amount={amount}
-          setAmount={setAmount}
-        />
+        <NumberInput amount={amount} setAmount={setAmount} />
         <button
           className={styles.submit}
           disabled={Data?.GameData?.gameState !== 'yetToStart'}
@@ -207,7 +206,15 @@ export default function StartGame({ selectedCircle }: Props) {
           Start Game
         </button>
         <p className={styles.note}>
-          The secret key is used to add a salt to your move for security.
+          {Data?.GameData?.won_Recovered_By === '' ? (
+            <span>
+              The secret key is used to add a salt to your move for security.
+            </span>
+          ) : (
+            <span>
+              this game is finished, tap + on top left for a new game.{' '}
+            </span>
+          )}{' '}
         </p>
       </form>
     </div>

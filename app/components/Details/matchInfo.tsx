@@ -30,7 +30,7 @@ export default function Modal() {
     const styles: React.CSSProperties = {};
     let text = '--';
     if (Data.GameData.gameState === 'finished') {
-      if (Data.GameData.won_Recovered_By === 'MatchDrawn') {
+      if (Data.GameData.won_Recovered_By === 'Match drawn') {
         styles.color = 'blue';
         text = 'Match Drawn';
       } else {

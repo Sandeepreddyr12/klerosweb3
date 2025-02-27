@@ -2,7 +2,7 @@
 
 import {  useEffect, useState } from 'react';
 import { db } from '@/firebase';
-import { ref,  onValue } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import {toast} from 'react-toastify';
 
 import styles from './myGames.module.css';
@@ -40,21 +40,27 @@ const GameInput = () => {
   useEffect(() => {
     if (!AppState.owner) return;
     const starCountRef = ref(db, 'players/' + AppState.owner);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
+    onValue(
+      starCountRef,
+      (snapshot) => {
+        const data = Object.entries(snapshot.val() || {})
+          .filter(([key]) => key !== 'isEmpty')
+          .sort(([,a], [,b]) => b.createdAt - a.createdAt)
+          .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
+        console.log(data);
 
-      setData(data);
+        setData(data);
 
-      setSelectedOption(
-        data === null ||
-          data === undefined ||
-          Object.keys(data).length === 0 ||
-          Object.keys(data)[0] === 'isEmpty'
-          ? 'New Game'
-          : Object.keys(data)[0]
-      );
-    });
+        setSelectedOption(
+          data === null ||
+            data === undefined ||
+            Object.keys(data).length === 0 
+            ? 'New Game'
+            : Object.keys(data)[0]
+        );
+      }
+    );
   }, [AppState.owner]);
 
   useEffect(() => {
@@ -104,11 +110,10 @@ const GameInput = () => {
                 className={styles.listChoiceTitle}
                 onClick={handleDropdownClick}
               >
-                {selectedOption !== '' && selectedOption !== 'isEmpty' ? selectedOption : 'New Game'}
+                {selectedOption !== '' ? selectedOption : 'New Game'}
               </div>
               <div className={styles.listChoiceObjects} onBlur={handleFocusOut}>
                 {Object.keys(data)
-                  .filter((key) => key !== 'isEmpty')
                   .map((key) => {
                     return (
                       <label key={key}>
