@@ -80,11 +80,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(clamp(10rem, 20vw, 25rem), 1fr));
   grid-template-rows: 1fr 1fr;
-
-  :nth-child(-n+4) {
-    grid-column: span 2;
-  }
   gap: clamp(1rem, 2vw, 2rem);
+}
+
+.game__description > *:nth-child(-n+4) {
+  grid-column: span 2;
 }
 
 .gameStatus {
