@@ -52,6 +52,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
       setLocalData(data);
       setSecretKey(data.secretKey);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Data.currentGameId]);
 
   const Solve = async (e: React.FormEvent) => {
@@ -161,6 +162,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
       //  setGameData((prevState) => ({ ...prevState, ...data }));
 
     } catch (error) {
+      console.log('Error solving game:', error);
       toast.update(toastId, {
         render: '🎉Something went wrong,Failed to start game. Please try again',
         type: 'error',
@@ -171,7 +173,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
   };
 
 
-  
+
 
 // below function is used to solve the game, based on the moves choosen by players
 function gameSolver(move1: number, move2: number): string {

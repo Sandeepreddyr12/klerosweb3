@@ -33,6 +33,7 @@ export async function deployHasher(
 
     return hasherContract;
   } catch (error) {
+    console.log(error);
     toast.error('Error deploying Hasher contract, retry again');
 
   }
@@ -69,6 +70,7 @@ export async function deployRPS(moveHash, player2Address, amount) {
 
     return address;
   } catch (error) {
+    console.log(error); 
     toast.error('Error deploying Hasher contract, retry again');
   }
 }

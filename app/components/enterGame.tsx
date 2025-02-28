@@ -129,6 +129,7 @@ export default function EnterGame({
 
 
     } catch (error) {
+      console.log('Error joining game:',error);
       toast.error('Failed to join game. Please try again.');
     }
   };

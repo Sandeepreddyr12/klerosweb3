@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // These arrow SVGs were generated using https://www.fffuel.co/pppointed/ and
 //  converted to React components using https://react-svgr.com/playground/
 
 
 
-const curvedArrowSvg = (props) => (
+const curvedArrowSvg = (props:any) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" {...props}>
     <path
       fill="none"
@@ -33,7 +34,7 @@ const curvedArrowSvg = (props) => (
 export default curvedArrowSvg;
 
 
-export const StraightArrowSvg = (props) => (
+export const StraightArrowSvg = (props:any) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" {...props}>
     <path
       fill="none"

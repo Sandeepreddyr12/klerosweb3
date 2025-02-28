@@ -48,7 +48,8 @@ export default function StartGame({ selectedCircle }: Props) {
     if (!address) {
       setAddress(Data.selectedAddress);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Data.selectedAddress]);
 
   
 
@@ -134,7 +135,7 @@ export default function StartGame({ selectedCircle }: Props) {
       });
       Data.setSelectedAddress('');
     } catch (error) {
-      // console.error('Error joining game:', error);
+      console.error('Error starting game:', error);
       toast.update(toastId, {
         render: '🎉Something went wrong,Failed to start game. Please try again',
         type: 'error',

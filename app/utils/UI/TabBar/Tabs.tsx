@@ -31,7 +31,7 @@ export function Tabs({ currentTab ,tabState } : TabsProps) {
         </li>
         <li onClick={() => tabState('friends')}>
           <p className={currentTab === 'friends' ? styles.activeClass : ''}>
-            friends
+            People
           </p>
         </li>
       </ul>

@@ -47,6 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     checkCurrentAccount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

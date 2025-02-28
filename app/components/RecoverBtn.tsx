@@ -92,7 +92,7 @@ export default function RecoverBtn() {
 
 
     } catch (error) {
-      // console.error('Error recovering funds:', error);
+      console.error('Error recovering funds:', error);
         toast.error('Failed to recover funds. Please try again.');
     }
   };

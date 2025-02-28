@@ -102,6 +102,7 @@ type AppProviderProps = {
          }
 
        } catch(error) {
+          console.log('Error connecting to wallet:',error);
          toast.error('Error connecting to wallet:, please refresh and try again'  );
        }
      } else {

@@ -16,6 +16,7 @@ import { useAppContext, defaultContext } from '../../utils/context/context';
 type playersData = {
   [key: string]: {
     status: string;
+    createdAt: number;
   }
 }
 
@@ -47,7 +48,7 @@ const GameInput = () => {
     onValue(
       starCountRef,
       (snapshot) => {
-        const data = Object.entries(snapshot.val() || {})
+        const data = Object.entries(snapshot.val() as playersData || {})
           .filter(([key]) => key !== 'isEmpty')
           .sort(([,a], [,b]) => b.createdAt - a.createdAt)
           .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
@@ -83,6 +84,7 @@ const GameInput = () => {
         });
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AppState.owner, selectedOption]);
 
 
