@@ -207,13 +207,13 @@ export default function StartGame({ selectedCircle }: Props) {
           Start Game
         </button>
         <p className={styles.note}>
-          {Data?.GameData?.won_Recovered_By === '' ? (
+          {Data?.GameData?.gameState === 'yetToStart'  ? (
             <span>
               The secret key is used to add a salt to your move for security.
             </span>
           ) : (
             <span>
-              this game is finished, tap + on top left for a new game.{' '}
+              tap + on top left for a new game.{' '}
             </span>
           )}{' '}
         </p>
