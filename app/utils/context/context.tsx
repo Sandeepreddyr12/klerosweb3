@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 
 
-
+//this is the central store/state, it is used to store the state of the app and share it with all the components
 
 export type gameStateType = 'yetToStart' | 'started' | 'p2Joined' | 'finished' | 'recovered';
 

@@ -26,6 +26,11 @@ export default function Home() {
 
   const Data = useAppContext();
 
+
+
+  // This function is used to detect account changes.
+  // When the user changes the account in the Metamask, this function is triggered.
+  // It gets the new account address and updates the context.
   const checkCurrentAccount = () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       window.ethereum.on('accountsChanged', async () => {
@@ -43,6 +48,11 @@ export default function Home() {
   useEffect(() => {
     checkCurrentAccount();
   }, []);
+
+
+  // This use effect is used to detect game state changes caused by other player operations.
+  // When the other player makes a move, this function is triggered.
+  // It changes and takes it to the desired tab and provides notifications to the user, making it a seamless real-time game experience.
 
   useEffect(() => {
     if (Data.GameData.gameState === 'yetToStart') {
@@ -97,7 +107,7 @@ export default function Home() {
 // Note on Performance:
 //  * While sibling components may re-render due to changes in parents, React's reconciliation process
 //  * efficiently handles DOM updates. Although techniques like React.memo and useCallback could 
-//  * potentially optimize re-renders, they would add unnecessary complexity in this case since:
+//  * potentially optimize few re-renders, they would add unnecessary complexity in this case since:
 //  * 1. Each component contains meaningful side effects
 //  * 2. React's built-in diffing algorithm already prevents unnecessary DOM manipulations
 //  * 3. The performance overhead of memoization could outweigh its benefits

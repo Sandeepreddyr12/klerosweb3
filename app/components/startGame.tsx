@@ -123,7 +123,7 @@ export default function StartGame({ selectedCircle }: Props) {
       await update(ref(db, 'players/' + address), gameAdd);
 
       await set(ref(db, 'game/' + gameId), data);
-
+// here address1 is concatenated with gameId , which makes it unique, doesnt interfere with other players, when played in same browser
       saveGameState(gameId+address1, secretKey, selectedCircle as string);
 
       toast.update(toastId, {

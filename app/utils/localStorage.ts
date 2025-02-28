@@ -1,4 +1,7 @@
 
+// below functions are used to save and retrieve the game state from local storage
+// this is used to maintain the game state even after the page is refreshed
+
 export type localData = {
   secretKey: string;
   move: string;

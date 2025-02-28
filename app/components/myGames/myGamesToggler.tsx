@@ -9,6 +9,10 @@ import styles from './myGames.module.css';
 import formStyle from '../../page.module.css';
 import { useAppContext, defaultContext } from '../../utils/context/context';
 
+
+
+//This component lets the user select a game from the list of games they have played before.
+
 type playersData = {
   [key: string]: {
     status: string;

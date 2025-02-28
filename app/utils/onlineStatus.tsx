@@ -3,6 +3,8 @@
 
 
 /**
+ * Note: This component is not working as intended
+ * 
  * This component was supposed to be a way to create online accounts, kinda like websockets room
  * I invested two days, and it didn't work out, I'll put it in my feature todo's for now
  * The idea was to have a presence system, where users are added to a room when they enter the app

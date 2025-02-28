@@ -1,3 +1,7 @@
+// These arrow SVGs were generated using https://www.fffuel.co/pppointed/ and
+//  converted to React components using https://react-svgr.com/playground/
+
+
 
 const curvedArrowSvg = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" {...props}>

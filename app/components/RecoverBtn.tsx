@@ -10,7 +10,7 @@ import { useAppContext, type gameStateType } from '../utils/context/context';
 import { resetGameState } from '../utils/localStorage';
 import RPSArtifact from '../../Contract/build/RPS.json';
 
-
+// This component lets the user recover their funds if the other player has not responded within 5 minutes.
 
 export default function RecoverBtn() {
   const Data = useAppContext();

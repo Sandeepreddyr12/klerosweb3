@@ -171,7 +171,9 @@ const SolveGame = ({ selectedCircle }: Props) => {
   };
 
 
+  
 
+// below function is used to solve the game, based on the moves choosen by players
 function gameSolver(move1: number, move2: number): string {
   if (move1 === move2) {
     toast.info("Match drawn! Both players choosen the same move.");

@@ -12,7 +12,7 @@ import { gameStateType, useAppContext } from '../utils/context/context';
 import styles from '../page.module.css';
 import { GameItem } from '../utils/UI/UIcomponents';
 
-
+// this component lets the other user enter a game. 
 
 type Props = {
   selectedCircle: string | null;

@@ -5,6 +5,9 @@ import styles from './matchInfo.module.css';
 import { useAppContext, type gameStateType } from '../../utils/context/context';
 import infoGif from '../../../public/media/infoGif.gif';
 
+
+// This component displays the match info in a modal.
+
 export default function Modal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const Data = useAppContext();
