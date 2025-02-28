@@ -176,37 +176,47 @@ const SolveGame = ({ selectedCircle }: Props) => {
 
 
 // below function is used to solve the game, based on the moves choosen by players
-function gameSolver(move1: number, move2: number): string {
-  if (move1 === move2) {
-    toast.info("Match drawn! Both players choosen the same move.");
-    return "Match drawn";
-  }
-  else if (move1 === 0 
-    || move2 === 0
-  ) {
-    toast.error("Invalid move by players");
-    return "Invalid move";
-  }
-  else if (move1 % 2 === move2 % 2) {
-    if (move1 < move2) {
-      toast.success(Data.owner === Data.GameData.player1 ? "You win!" : "Rival wins!");
-      return Data.owner === Data.GameData.player1 ? Data.GameData.player1 : Data.GameData.player2;
-    } else {
-      toast.success(Data.owner === Data.GameData.player2 ? "You win!" : "Rival wins!");
-      return Data.owner === Data.GameData.player2 ? Data.GameData.player2 : Data.GameData.player1;
-    }
-  }
-  else {
-    if (move1 > move2) {
-      toast.success(Data.owner === Data.GameData.player1 ? "You win!" : "Rival wins!");
-      return Data.owner === Data.GameData.player1 ? Data.GameData.player1 : Data.GameData.player2;
-    } else {
-      toast.success(Data.owner === Data.GameData.player2 ? "You win!" : "Rival wins!");
-      return Data.owner === Data.GameData.player2 ? Data.GameData.player2 : Data.GameData.player1;
-    }
-  }
-}
 
+function gameSolver(move1: number, move2: number): string {
+
+
+  if (move1 === move2) {
+    toast.info('Match drawn! Both players chose the same move.');
+    return 'Match drawn';
+  } else if (move1 === 0 || move2 === 0) {
+    toast.error('Invalid move by players.');
+    return 'Invalid move';
+  }
+
+  // Define win conditions using a lookup table
+  const winConditions: Record<number, number[]> = {
+    1: [3, 5], // Rock beats Scissors & Lizard
+    2: [1, 4], // Paper beats Rock & Spock
+    3: [2, 5], // Scissors beats Paper & Lizard
+    4: [3, 1], // Spock beats Scissors & Rock
+    5: [4, 2], // Lizard beats Spock & Paper
+  };
+
+  const player1 = Data.GameData.player1;
+  const player2 = Data.GameData.player2;
+
+  let winner: string;
+
+  if (winConditions[move1].includes(move2)) {
+    winner = player1;
+  } else {
+    winner = player2;
+  }
+
+  // Show the correct toast message for the current player
+  if (Data.owner === winner) {
+    toast.success('You win!');
+  } else {
+    toast.error('Rival wins!');
+  }
+
+  return winner;
+}
 
 
 
