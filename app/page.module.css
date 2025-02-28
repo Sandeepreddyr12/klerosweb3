@@ -3,12 +3,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: auto;
   flex-wrap: nowrap;
-  height: 100%;
+ 
   background: linear-gradient(180deg, #1e075f 21.45%, #9013fe);
-
 }
 
 
@@ -24,15 +23,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5rem 5rem 0 5rem;
-  
+  margin: auto 5rem 0 5rem;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
   .container {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    /* height: auto; */
   }
   .rpsContainer{
     margin-top: 8rem;
@@ -182,7 +181,7 @@
 .pages{
   width: 80vmin;
 /* margin-top: 15rem; */
-min-height: 100vh;
+height: 115vh;
 position: relative;
   display: flex;
   flex-direction: column;
@@ -194,13 +193,14 @@ position: relative;
   /* margin-bottom: 10rem; */    
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .pages {
     width: 100%;
     min-width: auto;
     min-height: auto;
     align-items: center;
     margin: 3rem auto 8rem ;
+    height: 60vh;
   }
 }
 
@@ -513,7 +513,7 @@ font-size: 5vmin;
   height: 100%;
   border: none;
   background-color: #e2e8f0;
-  padding: 0 0.5rem;
+  padding: 0 0.5em;
   color: #1f2937;
   font-weight: bold;
   outline: none;
@@ -554,12 +554,12 @@ font-size: 5vmin;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
+  padding: 0 1.5em;
 }
 
 .friendsContainer ul li {
   list-style: none;
-  padding: 1.5rem 1rem;
+  padding: 1.5em 1em;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
   transition: transform 0.5s;
   color: #061b83;
@@ -569,7 +569,7 @@ font-size: 5vmin;
   border-radius: 1.5rem;
   margin-bottom: 4px;
   width: 100%;
-  font-size: small;
+  font-size: clamp(0.75rem, 1vw, 1rem);
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -29,7 +29,7 @@
   inset: 0;
   width: 120vw;
   top: -1rem;
-  height: 100vh;
+  height: 110vh;
   z-index: 99;
   backdrop-filter: blur(30px);
   transform: translateX(-16%);
