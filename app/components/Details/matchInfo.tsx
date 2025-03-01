@@ -114,7 +114,9 @@ export default function Modal() {
                   <div>You : {getPlayerInfo(true)}</div>
                   <div>Opp : {getPlayerInfo(false)}</div>
                   <div>Contract :- {Data.GameData.RPSaddress}</div>
-                  <div>Status : {status(Data.GameData.gameState)}</div>
+                  <div style={{ color: '#1e075f' }}>
+                    Status : {status(Data.GameData.gameState)}
+                  </div>
                   <div> Stake: {Data.GameData.stake} </div>
 
                   <div>result : {getResult()}</div>
@@ -154,7 +156,6 @@ export default function Modal() {
                   </>
                 )}
               </div>
-
 
               <button
                 className={styles.closeBtn}

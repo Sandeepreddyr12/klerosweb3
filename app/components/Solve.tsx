@@ -119,6 +119,16 @@ const SolveGame = ({ selectedCircle }: Props) => {
         secretKey
       );
 
+
+    // // i want to update the game state to finished, after the game is solved
+    //   const data1 = {
+    //     gameState: 'finished' as gameStateType,
+    //   };
+    //   await update(
+    //     ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + Data.currentGameId),
+    //     data1
+    //   );
+
       
      
      
