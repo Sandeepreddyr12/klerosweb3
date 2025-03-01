@@ -2,7 +2,7 @@
 
 A modern Rock Paper Scissors Lizard Spock game built with Web3 technologies and real-time multiplayer capabilities.
 
- experience [RPSSL-multi player](https://klerosweb3.vercel.app/) Game
+ experience [RPSSL-multi player](https://rpsslweb3.vercel.app/) Game
 
 ## Features
 
