@@ -152,6 +152,9 @@ export default function StartGame({ selectedCircle }: Props) {
     setSecretKey(randomNumber.slice(0, 25));
   }
 
+
+  
+
   function inputValidator(address1: string) {
     if (!address) {
       toast.warn('Please enter opponent address');

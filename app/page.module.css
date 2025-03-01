@@ -55,6 +55,13 @@
   color: #1e2a38;
   transform: translate(-50%, -50%);
   font-size: 8vmin;
+  z-index: 20;
+  transition: font-size 0.2s ease-in-out, font-size 0.2s ease-in-out;
+}
+
+.circle:hover {
+  cursor: pointer;
+  font-size: 9vmin;
 }
 
 .rock {
