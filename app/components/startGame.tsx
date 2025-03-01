@@ -146,11 +146,10 @@ export default function StartGame({ selectedCircle }: Props) {
   };
 
   function generateSecureRandomNumber() {
-    const array = new Uint32Array(1);
+    const array = new Uint32Array(2);
     window.crypto.getRandomValues(array);
-    const randomNumber = array[0];
-    setSecretKey(randomNumber.toString().slice(0, 15));
-
+    const randomNumber = array[0].toString() + array[1].toString();
+    setSecretKey(randomNumber.slice(0, 25));
   }
 
   function inputValidator(address1: string) {
