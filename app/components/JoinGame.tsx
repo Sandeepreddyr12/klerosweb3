@@ -18,7 +18,7 @@ type Props = {
   selectedCircle: string | null;
 };
 
-export default function EnterGame({
+export default function JoinGame({
   selectedCircle,
 }: Props) {
 

@@ -7,7 +7,7 @@ import styles from './page.module.css';
 import { useAppContext } from './utils/context/context';
 import RPSLSGame from './components/RPSLS';
 import StartGame from './components/startGame';
-import EnterGame from './components/enterGame';
+import JoinGame from './components/JoinGame';
 import Solve from './components/Solve';
 import Friends from './components/friends';
 import { Tabs } from './utils/UI/TabBar/Tabs';
@@ -133,7 +133,7 @@ export default function Home() {
                 case 'start':
                   return <StartGame selectedCircle={selectedCircle} />;
                 case 'join':
-                  return <EnterGame selectedCircle={selectedCircle} />;
+                  return <JoinGame selectedCircle={selectedCircle} />;
                 case 'solve':
                   return <Solve selectedCircle={selectedCircle} />;
                 case 'friends':
