@@ -31,6 +31,11 @@ Required environment variable:
 NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
 ```
 
+```
+NEXT_PUBLIC_GAMES_PATH = path in firebase realtime db (ex: games/)
+NEXT_PUBLIC_PLAYERS_PATH = path in firebase realtime db (ex: players/)
+```
+
 ## Getting Started
 
 1. Install dependencies:
