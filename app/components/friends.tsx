@@ -18,7 +18,7 @@ const Friends = ({ tabState }: TabsProps) => {
   const [players, setPlayers] = useState({});
 
   useEffect(() => {
-    const starCountRef = ref(db, 'players/');
+    const starCountRef = ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH);
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
 

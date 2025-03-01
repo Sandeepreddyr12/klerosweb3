@@ -120,10 +120,10 @@ export default function StartGame({ selectedCircle }: Props) {
         },
       };
 
-      await update(ref(db, 'players/' + address1), gameAdd);
-      await update(ref(db, 'players/' + address), gameAdd);
+      await update(ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + address1), gameAdd);
+      await update(ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + address), gameAdd);
 
-      await set(ref(db, 'game/' + gameId), data);
+      await set(ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + gameId), data);
 // here address1 is concatenated with gameId , which makes it unique, doesnt interfere with other players, when played in same browser
       saveGameState(gameId+address1, secretKey, selectedCircle as string);
 

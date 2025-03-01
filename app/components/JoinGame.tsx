@@ -123,7 +123,10 @@ export default function JoinGame({
         timer: Date.now(),
       };
 
-      await update(ref(db, 'game/' + Data.currentGameId), data);
+      await update(
+        ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + Data.currentGameId),
+        data
+      );
 
       toast.success('Game joined successfully!');
 

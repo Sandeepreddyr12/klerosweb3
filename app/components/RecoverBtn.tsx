@@ -56,7 +56,10 @@ export default function RecoverBtn() {
           won_Recovered_By: Data.GameData.player1,
           timer: Date.now(),
         };
-        await update(ref(db, 'game/' + Data.currentGameId), data);
+        await update(
+          ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + Data.currentGameId),
+          data
+        );
 
 
         toast.success('Funds recovered successfully');
@@ -70,7 +73,10 @@ export default function RecoverBtn() {
           won_Recovered_By: Data.GameData.player2,
           timer : Date.now()
         };
-        await update(ref(db, 'game/' + Data.currentGameId), data);
+        await update(
+          ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + Data.currentGameId),
+          data
+        );
          toast.success('Funds recovered successfully');
       }
 
@@ -81,11 +87,11 @@ export default function RecoverBtn() {
       }
 
       await update(
-        ref(db, 'players/' + Data.GameData.player1+ '/' + Data.currentGameId),
+        ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + Data.GameData.player1+ '/' + Data.currentGameId),
         gameUpdate
       );
       await update(
-        ref(db, 'players/' + Data.GameData.player2 + '/' + Data.currentGameId),
+        ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + Data.GameData.player2 + '/' + Data.currentGameId),
         gameUpdate
       );
 

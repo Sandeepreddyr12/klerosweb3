@@ -92,7 +92,10 @@ type AppProviderProps = {
          };
 
          
-         const playerRef = ref(db, 'players/' + accounts[0]);
+         const playerRef = ref(
+           db,
+           process.env.NEXT_PUBLIC_PLAYERS_PATH + accounts[0]
+         );
 
          const snapshot = await firebaseGet(playerRef);
          if (!snapshot.exists()) {

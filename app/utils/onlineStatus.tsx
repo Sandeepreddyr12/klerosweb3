@@ -17,7 +17,7 @@
 export default function onlineStatus() {
   // Function to establish player presence
   // function establishPresence(userId) {
-  //   const presenceRef = ref(db, `players/${userId}/presence`); //Note change from users to players
+  //   const presenceRef = ref(db, `process.env.NEXT_PUBLIC_PLAYERS_PATH${userId}/presence`); //Note change from users to players
   //   const connectedRef = ref(db, '.info/connected');
   //   onValue(connectedRef, (snapshot) => {
   //     if (snapshot.val() === true) {
@@ -43,7 +43,7 @@ export default function onlineStatus() {
   //   const onlinePlayers: { [key: string]: boolean | null } = {};
   //   const promises = playerIds.map(async (playerId) => {
   //     try {
-  //       const presenceRef = ref(db, `players/${playerId}/presence`); //Note change from users to players
+  //       const presenceRef = ref(db, `process.env.NEXT_PUBLIC_PLAYERS_PATH${playerId}/presence`); //Note change from users to players
   //       console.log(
   //         `Checking presence for ${playerId} at path: ${presenceRef.path}`
   //       );

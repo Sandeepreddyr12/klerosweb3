@@ -44,7 +44,10 @@ const GameInput = () => {
 
   useEffect(() => {
     if (!AppState.owner) return;
-    const starCountRef = ref(db, 'players/' + AppState.owner);
+    const starCountRef = ref(
+      db,
+      process.env.NEXT_PUBLIC_PLAYERS_PATH + AppState.owner
+    );
     onValue(
       starCountRef,
       (snapshot) => {
@@ -76,7 +79,10 @@ const GameInput = () => {
       } else {
         AppState.setCurrentGameId(selectedOption);
 
-        const starCountRef = ref(db, 'game/' + selectedOption);
+        const starCountRef = ref(
+          db,
+          process.env.NEXT_PUBLIC_GAMES_PATH + selectedOption
+        );
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
 

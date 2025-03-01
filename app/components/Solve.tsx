@@ -97,6 +97,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
       // Get the signer
       const signer = await provider.getSigner();
 
+
     
       const RPSContract = new Contract(
         Data.GameData.RPSaddress,
@@ -112,11 +113,13 @@ const SolveGame = ({ selectedCircle }: Props) => {
          autoClose: 4000,
        });
 
-
+      
       await RPSContract.solve(
         getMoveNumber((selectedCircle || localData?.move)),
         secretKey
       );
+
+      
      
      
       const move2 = await RPSContract.c2();
@@ -135,18 +138,21 @@ const SolveGame = ({ selectedCircle }: Props) => {
         won_Recovered_By : matchResult,
         moves : moves
       };
-      await update(ref(db, 'game/' + Data.currentGameId), data);
+      await update(
+        ref(db, process.env.NEXT_PUBLIC_GAMES_PATH + Data.currentGameId),
+        data
+      );
 
       const gameUpdate = {
         status: 'finished',
       };
 
       await update(
-        ref(db, 'players/' + Data.GameData.player1 + '/' + Data.currentGameId),
+        ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + Data.GameData.player1 + '/' + Data.currentGameId),
         gameUpdate
       );
       await update(
-        ref(db, 'players/' + Data.GameData.player2 + '/' + Data.currentGameId),
+        ref(db, process.env.NEXT_PUBLIC_PLAYERS_PATH + Data.GameData.player2 + '/' + Data.currentGameId),
         gameUpdate
       );
 
@@ -164,7 +170,7 @@ const SolveGame = ({ selectedCircle }: Props) => {
     } catch (error) {
       console.log('Error solving game:', error);
       toast.update(toastId, {
-        render: '🎉Something went wrong,Failed to start game. Please try again',
+        render: '🎉Something went wrong,Failed to solve game. Please try again',
         type: 'error',
         isLoading: false,
         autoClose: 5000,
